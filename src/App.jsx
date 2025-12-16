@@ -123,13 +123,13 @@ const Header = () => {
           </div>
           <div className="flex flex-col">
             <span className="font-bold text-xl text-white tracking-tighter leading-none">LIGA CANDANGA</span>
-            <span className="text-xs text-yellow-400 font-semibold tracking-widest">FUTSAL</span>
+            <span className="text-xs text-yellow-400 font-semibold tracking-widest">FUTSAL DISTRITO FEDERAL</span>
           </div>
         </div>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex gap-8 text-sm font-bold uppercase tracking-wide text-slate-300 animate-fade-in-down" style={{animationDelay: '100ms'}}>
-          {['Notícias', 'Tabela', 'Jogos', 'Clubes', 'Vídeos', 'Parceiros'].map((item) => (
+          {['Notícias', 'Jogos', 'Campeonatos', 'Clubes', 'Social', 'Parceiros', 'Canais'].map((item) => (
             <a key={item} href="#" className="hover:text-green-400 transition-colors relative group py-2">
               {item}
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-green-400 transition-all group-hover:w-full"></span>
@@ -481,7 +481,7 @@ const Footer = () => {
             <ul className="space-y-3 text-sm">
               <li className="hover:text-green-400 cursor-pointer transition-colors">Sobre a Liga</li>
               <li className="hover:text-green-400 cursor-pointer transition-colors">Regulamentos</li>
-              <li className="hover:text-green-400 cursor-pointer transition-colors">Tribunal (TJD)</li>
+              <li className="hover:text-green-400 cursor-pointer transition-colors">Transparência</li>
               <li className="hover:text-green-400 cursor-pointer transition-colors">Seja um Parceiro</li>
               <li className="hover:text-green-400 cursor-pointer transition-colors">Fale Conosco</li>
             </ul>
