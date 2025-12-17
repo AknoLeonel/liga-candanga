@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { 
-  Trophy, Calendar, ChevronRight, Menu, Search, PlayCircle, Clock, 
+  Calendar, ChevronRight, Menu, Search, PlayCircle, Clock, 
   TrendingUp, Shield, MapPin, X, Instagram, Facebook, Twitter, 
-  Moon, Sun, Users, Video, Award, ChevronDown
+  Moon, Sun, Users, Video, ChevronDown
 } from 'lucide-react';
 
-// --- MOCK DATA (Mantendo e expandindo os dados) ---
+// IMPORTANTE: Certifique-se de que a imagem está na pasta assets
+import logoLiga from '/public/logoligasemfundo.png';
+
+// --- MOCK DATA ---
 
 const PLACARES = [
   { id: 1, timeA: 'Brasília Futsal', golsA: 4, timeB: 'AJJR Futsal', golsB: 2, status: 'ENCERRADO', liga: 'Série Ouro' },
@@ -56,7 +59,6 @@ const TABELA = [
 // --- HOOKS & UTILS ---
 
 const useTheme = () => {
-  // Check system preference or localStorage, default to dark
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('theme') || 'dark';
@@ -151,19 +153,21 @@ const Header = ({ theme, toggleTheme }) => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             
-            {/* Logo */}
+            {/* Logo Area */}
             <div className="flex items-center gap-3 group cursor-pointer z-50">
-              <div className="relative w-10 h-12 md:w-12 md:h-14">
-                <div className="absolute inset-0 bg-brand-green skew-x-[-10deg] rounded-sm group-hover:bg-brand-yellow transition-colors duration-300 shadow-lg"></div>
-                <div className="absolute inset-0 flex items-center justify-center text-white font-black text-xl md:text-2xl skew-x-[-10deg]">
-                  <Trophy size={20} className="md:w-6 md:h-6" />
-                </div>
+              <div className="relative w-12 h-12 md:w-16 md:h-16 flex items-center justify-center">
+                {/* LOGO SUBSTITUÍDO AQUI */}
+                <img 
+                  src={logoLiga} 
+                  alt="Logo Liga Candanga" 
+                  className="w-full h-full object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300"
+                />
               </div>
               <div className="flex flex-col">
                 <h1 className="text-lg md:text-2xl font-black tracking-tighter leading-none text-slate-900 dark:text-white group-hover:text-brand-green transition-colors">
                   LIGA <span className="text-brand-yellow">CANDANGA</span>
                 </h1>
-                <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] text-slate-600 dark:text-slate-400 uppercase">Distrito Federal</span>
+                <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] text-slate-600 dark:text-slate-400 uppercase">de Futsal - Distrito Federal</span>
               </div>
             </div>
 
@@ -236,9 +240,9 @@ const Header = ({ theme, toggleTheme }) => {
 };
 
 const ScoreTicker = () => (
-  <div className="bg-slate-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 overflow-hidden whitespace-nowrap pt-[76px] md:pt-[96px] pb-2 relative z-30">
-    <div className="absolute left-0 top-[76px] md:top-[96px] bottom-2 w-8 md:w-20 bg-gradient-to-r from-slate-100 dark:from-slate-900 to-transparent z-40"></div>
-    <div className="absolute right-0 top-[76px] md:top-[96px] bottom-2 w-8 md:w-20 bg-gradient-to-l from-slate-100 dark:from-slate-900 to-transparent z-40"></div>
+  <div className="bg-slate-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 overflow-hidden whitespace-nowrap pt-[80px] md:pt-[100px] pb-2 relative z-30">
+    <div className="absolute left-0 top-[80px] md:top-[100px] bottom-2 w-8 md:w-20 bg-gradient-to-r from-slate-100 dark:from-slate-900 to-transparent z-40"></div>
+    <div className="absolute right-0 top-[80px] md:top-[100px] bottom-2 w-8 md:w-20 bg-gradient-to-l from-slate-100 dark:from-slate-900 to-transparent z-40"></div>
     
     <div className="flex gap-4 animate-marquee pl-4 hover:pause">
       {[...PLACARES, ...PLACARES, ...PLACARES].map((jogo, idx) => (
@@ -283,7 +287,9 @@ const Hero = () => (
     <div className="container mx-auto px-4 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
       <Reveal direction="up" className="max-w-2xl">
         <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/20 text-brand-green border border-brand-green/30 text-xs font-black uppercase tracking-widest mb-6 backdrop-blur-md">
-          <Trophy size={12} /> Temporada 2025
+          {/* LOGO SUBSTITUÍDO AQUI */}
+          <img src={logoLiga} alt="Logo" className="w-4 h-4 object-contain" /> 
+          Temporada 2025
         </span>
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-[0.95] mb-6 drop-shadow-2xl">
           O FUTURO DO <br/>
@@ -501,7 +507,7 @@ const Sponsors = () => (
     <div className="container mx-auto px-4 text-center">
       <h4 className="text-sm font-bold text-slate-400 uppercase tracking-[0.2em] mb-8">Patrocinadores Oficiais</h4>
       <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 hover:opacity-100 transition-opacity">
-        {/* Placeholder Logos - In a real scenario, use SVGs */}
+        {/* Placeholder Logos */}
         {['BAND', 'BRB', 'Secretaria de Esportes', 'GDF'].map((sponsor, i) => (
           <div key={i} className="h-12 flex items-center justify-center font-black text-2xl text-slate-300 dark:text-slate-700 uppercase">
              {sponsor}
@@ -520,8 +526,9 @@ const Footer = () => (
         {/* Brand */}
         <div className="col-span-1 md:col-span-2">
           <div className="flex items-center gap-2 mb-6">
-             <div className="w-10 h-10 bg-brand-green rounded flex items-center justify-center text-white">
-               <Trophy size={20} />
+             <div className="w-14 h-16 rounded flex items-center justify-center p-1">
+               {/* LOGO SUBSTITUÍDO AQUI */}
+               <img src={logoLiga} alt="Logo Liga Candanga" className="w-full h-full object-contain" />
              </div>
              <div className="leading-tight">
                <h4 className="font-black text-white text-xl">LIGA CANDANGA</h4>
