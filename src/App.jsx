@@ -5,7 +5,6 @@ import {
   Moon, Sun, Users, Video, ChevronDown, Radio, Lock, Youtube, Star
 } from 'lucide-react';
 
-// CORREÇÃO: Como a imagem está na pasta 'public', não usamos import.
 // A barra "/" refere-se à raiz da pasta public.
 const logoLiga = "/logoligasemfundo.png";
 
@@ -133,7 +132,7 @@ const NavItem = ({ label, href = "#", active, hasSubmenu, submenuItems }) => {
     >
       <a 
         href={href} 
-        className={`flex items-center gap-1 px-3 py-2 text-sm font-bold uppercase tracking-wider transition-colors ${active ? 'text-brand-green' : 'text-slate-300 dark:text-slate-400 hover:text-brand-yellow dark:hover:text-brand-yellow'}`}
+        className={`flex items-center gap-1 px-3 py-2 text-sm font-bold uppercase tracking-wider transition-colors ${active ? 'text-brand-green' : 'text-slate-600 dark:text-slate-400 hover:text-brand-green dark:hover:text-brand-yellow'}`}
       >
         {label}
         {hasSubmenu && <ChevronDown size={14} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />}
@@ -143,7 +142,7 @@ const NavItem = ({ label, href = "#", active, hasSubmenu, submenuItems }) => {
       {hasSubmenu && isOpen && (
         <div className="absolute top-full left-0 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xl py-2 min-w-[180px] flex flex-col z-50 animate-fade-in-down">
           {submenuItems.map((item, idx) => (
-             <a key={idx} href={item.href} className="px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-brand-green transition-colors border-b border-transparent hover:border-l-4 hover:border-l-brand-green">
+             <a key={idx} href={item.href} className="px-4 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-brand-green transition-colors border-b border-transparent hover:border-l-4 hover:border-l-brand-green">
                {item.label}
              </a>
           ))}
@@ -162,7 +161,7 @@ const MobileMenuItem = ({ label, href = "#" }) => (
 const SectionTitle = ({ title, subtitle }) => (
   <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-l-4 border-brand-green pl-4">
     <div>
-      {subtitle && <span className="block text-brand-yellow font-bold text-xs uppercase tracking-[0.2em] mb-1">{subtitle}</span>}
+      {subtitle && <span className="block text-amber-600 dark:text-brand-yellow font-bold text-xs uppercase tracking-[0.2em] mb-1">{subtitle}</span>}
       <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white uppercase leading-none tracking-tight">
         {title}
       </h2>
@@ -172,7 +171,7 @@ const SectionTitle = ({ title, subtitle }) => (
 );
 
 const SectionSeparator = ({ color = "green" }) => (
-  <div className={`h-2 w-full bg-gradient-to-r ${color === "green" ? "from-brand-green via-emerald-600 to-slate-900" : "from-brand-yellow via-orange-500 to-slate-900"}`}></div>
+  <div className={`h-2 w-full bg-gradient-to-r ${color === "green" ? "from-brand-green via-emerald-600 to-slate-200 dark:to-slate-900" : "from-brand-yellow via-orange-500 to-slate-200 dark:to-slate-900"}`}></div>
 );
 
 // --- MAIN COMPONENTS ---
@@ -189,7 +188,7 @@ const Header = ({ theme, toggleTheme }) => {
 
   return (
     <>
-      <header className={`fixed top-0 w-full z-50 transition-all duration-300 border-b ${isScrolled ? 'bg-white/95 dark:bg-slate-950/95 backdrop-blur-md border-slate-200 dark:border-slate-800 py-2 shadow-lg' : 'bg-transparent border-transparent py-4 bg-gradient-to-b from-black/90 to-transparent'}`}>
+      <header className={`fixed top-0 w-full z-50 transition-all duration-300 border-b ${isScrolled ? 'bg-white/95 dark:bg-slate-950/95 backdrop-blur-md border-slate-200 dark:border-slate-800 py-2 shadow-lg' : 'bg-transparent border-transparent py-4 bg-gradient-to-b from-black/80 to-transparent'}`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             
@@ -199,15 +198,15 @@ const Header = ({ theme, toggleTheme }) => {
                  <img src={logoLiga} alt="Logo Liga Candanga" className="w-full h-full object-contain" />
               </div>
               <div className="flex flex-col">
-                <h1 className="text-lg md:text-2xl font-black tracking-tighter leading-none text-slate-900 dark:text-white group-hover:text-brand-green transition-colors">
+                <h1 className={`text-lg md:text-2xl font-black tracking-tighter leading-none transition-colors ${isScrolled ? 'text-slate-900 dark:text-white' : 'text-white'} group-hover:text-brand-green`}>
                   LIGA <span className="text-brand-yellow">CANDANGA</span>
                 </h1>
-                <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] text-slate-600 dark:text-slate-400 uppercase">Distrito Federal</span>
+                <span className={`text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase ${isScrolled ? 'text-slate-500 dark:text-slate-400' : 'text-slate-300'}`}>Distrito Federal</span>
               </div>
             </div>
 
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 dark:bg-slate-900/80 px-4 py-1.5 rounded-full border border-slate-200 dark:border-white/10 backdrop-blur-md shadow-lg">
+            <nav className="hidden lg:flex items-center gap-1 bg-white/80 dark:bg-slate-900/80 px-4 py-1.5 rounded-full border border-slate-200 dark:border-white/10 backdrop-blur-md shadow-lg">
               <NavItem label="Início" href="#" active />
               <NavItem 
                 label="Campeonatos" 
@@ -229,20 +228,20 @@ const Header = ({ theme, toggleTheme }) => {
             <div className="flex items-center gap-3">
               <button 
                 onClick={toggleTheme}
-                className="hidden md:flex p-2 rounded-full text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
+                className={`hidden md:flex p-2 rounded-full transition-colors ${isScrolled ? 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800' : 'text-white hover:bg-white/20'}`}
                 aria-label="Alternar Tema"
               >
                 {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
               </button>
 
               <div className="hidden md:flex gap-2">
-                 <a href="https://www.youtube.com" target="_blank" className="p-2 text-slate-400 hover:text-red-600 transition-colors"><Youtube size={20}/></a>
-                 <a href="https://www.instagram.com" target="_blank" className="p-2 text-slate-400 hover:text-pink-600 transition-colors"><Instagram size={20}/></a>
+                 <a href="https://www.youtube.com" target="_blank" className={`p-2 transition-colors ${isScrolled ? 'text-slate-500 hover:text-red-600' : 'text-slate-300 hover:text-white'}`}><Youtube size={20}/></a>
+                 <a href="https://www.instagram.com" target="_blank" className={`p-2 transition-colors ${isScrolled ? 'text-slate-500 hover:text-pink-600' : 'text-slate-300 hover:text-white'}`}><Instagram size={20}/></a>
               </div>
 
               {/* Mobile Toggle */}
               <button 
-                className="lg:hidden p-2 text-slate-900 dark:text-white z-50"
+                className={`lg:hidden p-2 z-50 ${isScrolled || isMenuOpen ? 'text-slate-900 dark:text-white' : 'text-white'}`}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 aria-label="Menu"
               >
@@ -286,27 +285,27 @@ const Header = ({ theme, toggleTheme }) => {
 };
 
 const ScoreTicker = () => (
-  <div className="bg-slate-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 overflow-hidden whitespace-nowrap pt-[80px] md:pt-[100px] pb-2 relative z-30">
-    <div className="absolute left-0 top-[80px] md:top-[100px] bottom-2 w-8 md:w-20 bg-gradient-to-r from-slate-100 dark:from-slate-900 to-transparent z-40"></div>
-    <div className="absolute right-0 top-[80px] md:top-[100px] bottom-2 w-8 md:w-20 bg-gradient-to-l from-slate-100 dark:from-slate-900 to-transparent z-40"></div>
+  <div className="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 overflow-hidden whitespace-nowrap pt-[80px] md:pt-[100px] pb-2 relative z-30">
+    <div className="absolute left-0 top-[80px] md:top-[100px] bottom-2 w-8 md:w-20 bg-gradient-to-r from-slate-50 dark:from-slate-900 to-transparent z-40"></div>
+    <div className="absolute right-0 top-[80px] md:top-[100px] bottom-2 w-8 md:w-20 bg-gradient-to-l from-slate-50 dark:from-slate-900 to-transparent z-40"></div>
     
     <div className="flex gap-4 animate-marquee pl-4 hover:pause">
       {[...PLACARES, ...PLACARES, ...PLACARES].map((jogo, idx) => (
         <div key={`${jogo.id}-${idx}`} className={`inline-flex flex-col justify-center min-w-[200px] md:min-w-[240px] bg-white dark:bg-slate-800 p-2 md:p-3 rounded-lg border hover:border-brand-green transition-colors cursor-pointer shadow-sm ${idx % 2 === 0 ? 'border-l-4 border-l-brand-green border-slate-200 dark:border-slate-700' : 'border-l-4 border-l-brand-yellow border-slate-200 dark:border-slate-700'}`}>
           <div className="flex justify-between items-center mb-1 border-b border-slate-100 dark:border-slate-700 pb-1">
-             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{jogo.liga}</span>
-             <span className={`text-[10px] font-black uppercase ${jogo.status.includes('AO VIVO') ? 'text-red-500 animate-pulse' : 'text-brand-green'}`}>
+             <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{jogo.liga}</span>
+             <span className={`text-[10px] font-black uppercase ${jogo.status.includes('AO VIVO') ? 'text-red-600 animate-pulse' : 'text-brand-green'}`}>
                {jogo.status}
              </span>
           </div>
           <div className="flex justify-between items-center w-full">
             <div className="flex flex-col gap-1 w-full">
               <div className="flex justify-between items-center">
-                <span className="text-xs md:text-sm font-bold text-slate-700 dark:text-slate-200 truncate max-w-[120px]">{jogo.timeA}</span>
+                <span className="text-xs md:text-sm font-bold text-slate-800 dark:text-slate-200 truncate max-w-[120px]">{jogo.timeA}</span>
                 <span className="text-sm font-black text-slate-900 dark:text-white">{jogo.golsA}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs md:text-sm font-bold text-slate-700 dark:text-slate-200 truncate max-w-[120px]">{jogo.timeB}</span>
+                <span className="text-xs md:text-sm font-bold text-slate-800 dark:text-slate-200 truncate max-w-[120px]">{jogo.timeB}</span>
                 <span className="text-sm font-black text-slate-900 dark:text-white">{jogo.golsB}</span>
               </div>
             </div>
@@ -321,6 +320,7 @@ const Hero = () => (
   <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 overflow-hidden">
     <div className="absolute inset-0 z-0">
       <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1936&auto=format&fit=crop" alt="Futsal background" className="w-full h-full object-cover object-center" />
+      {/* Overlay escuro mantido mesmo no modo claro para contraste do texto branco */}
       <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent opacity-95 dark:opacity-90"></div>
     </div>
 
@@ -350,7 +350,7 @@ const Hero = () => (
       
       {/* Dynamic Floating Card */}
       <Reveal direction="left" delay={200} className="hidden lg:block relative">
-         <div className="relative z-10 bg-slate-900/40 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-2xl animate-float">
+         <div className="relative z-10 bg-slate-900/60 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-2xl animate-float">
             <div className="flex items-start gap-4 mb-4">
                <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?q=80&w=1740&auto=format&fit=crop" className="w-24 h-24 rounded-lg object-cover border-2 border-brand-yellow" alt="Destaque"/>
                <div>
@@ -369,7 +369,7 @@ const Dashboard = () => {
     const [activeTab, setActiveTab] = useState('jogos'); // jogos | videos
 
     return (
-    <section id="tabela" className="py-16 md:py-24 bg-white dark:bg-slate-950 relative">
+    <section id="tabela" className="py-16 md:py-24 bg-white dark:bg-slate-950 relative transition-colors duration-300">
         <div className="container mx-auto px-4 relative z-10">
         
         <SectionTitle title="Campeonatos" subtitle="Tabela & Jogos" />
@@ -378,13 +378,13 @@ const Dashboard = () => {
             
             {/* Tabela Principal */}
             <Reveal className="lg:col-span-2">
-            <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl overflow-hidden relative">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl overflow-hidden relative">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-green to-brand-yellow"></div>
-                <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50">
+                <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
                     <div className="flex gap-4">
                     <button className="text-sm font-black uppercase text-brand-green border-b-2 border-brand-green pb-1">Série Ouro</button>
-                    <button className="text-sm font-bold uppercase text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors pb-1">Série Prata</button>
-                    <button className="text-sm font-bold uppercase text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors pb-1">Feminino</button>
+                    <button className="text-sm font-bold uppercase text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors pb-1">Série Prata</button>
+                    <button className="text-sm font-bold uppercase text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors pb-1">Feminino</button>
                     </div>
                     <button className="text-xs font-bold text-slate-500 hover:text-brand-green flex items-center gap-1">
                     Ver Completa <ChevronRight size={12}/>
@@ -393,7 +393,7 @@ const Dashboard = () => {
                 
                 <div className="overflow-x-auto">
                 <table className="w-full text-sm">
-                    <thead className="bg-slate-100 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 font-bold uppercase text-xs tracking-wider">
+                    <thead className="bg-slate-100 dark:bg-slate-800/50 text-slate-600 dark:text-slate-400 font-bold uppercase text-xs tracking-wider">
                     <tr>
                         <th className="py-4 pl-6 text-left w-14">Pos</th>
                         <th className="py-4 text-left">Clube</th>
@@ -406,9 +406,9 @@ const Dashboard = () => {
                     </thead>
                     <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
                     {TABELA.map((time, idx) => (
-                        <tr key={idx} className="hover:bg-white dark:hover:bg-slate-800 transition-colors group">
+                        <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group">
                         <td className="py-4 pl-6">
-                            <span className={`flex items-center justify-center w-8 h-8 rounded-lg font-black text-xs ${idx === 0 ? 'bg-brand-yellow text-slate-900 shadow-md' : idx < 4 ? 'bg-brand-green/10 text-brand-green' : 'bg-slate-200 dark:bg-slate-800 text-slate-500'}`}>
+                            <span className={`flex items-center justify-center w-8 h-8 rounded-lg font-black text-xs ${idx === 0 ? 'bg-brand-yellow text-slate-900 shadow-md' : idx < 4 ? 'bg-brand-green/10 text-brand-green' : 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-500'}`}>
                             {time.pos}º
                             </span>
                         </td>
@@ -421,13 +421,13 @@ const Dashboard = () => {
                             </div>
                         </td>
                         <td className="py-4 text-center font-black text-slate-900 dark:text-white text-base">{time.pts}</td>
-                        <td className="py-4 text-center text-slate-500 dark:text-slate-400 font-medium">{time.j}</td>
-                        <td className="py-4 text-center text-slate-500 dark:text-slate-400 font-medium hidden md:table-cell">{time.v}</td>
-                        <td className="py-4 text-center text-slate-500 dark:text-slate-400 font-medium hidden md:table-cell">{time.sg}</td>
+                        <td className="py-4 text-center text-slate-600 dark:text-slate-400 font-medium">{time.j}</td>
+                        <td className="py-4 text-center text-slate-600 dark:text-slate-400 font-medium hidden md:table-cell">{time.v}</td>
+                        <td className="py-4 text-center text-slate-600 dark:text-slate-400 font-medium hidden md:table-cell">{time.sg}</td>
                         <td className="py-4 pr-6">
                             <div className="flex justify-center gap-1">
                                 {[1,1,1,0,1].map((r, i) => (
-                                <div key={i} className={`w-2 h-2 rounded-full ${r ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                                <div key={i} className={`w-2 h-2 rounded-full ${r ? 'bg-green-600' : 'bg-red-500'}`}></div>
                                 ))}
                             </div>
                         </td>
@@ -449,11 +449,11 @@ const Dashboard = () => {
                         <div className="flex bg-slate-100 dark:bg-slate-800 rounded-lg p-1">
                             <button 
                                 onClick={() => setActiveTab('jogos')}
-                                className={`px-3 py-1 text-xs font-bold rounded transition-all ${activeTab === 'jogos' ? 'bg-white dark:bg-slate-700 shadow text-brand-green' : 'text-slate-400'}`}
+                                className={`px-3 py-1 text-xs font-bold rounded transition-all ${activeTab === 'jogos' ? 'bg-white dark:bg-slate-700 shadow text-brand-green' : 'text-slate-500'}`}
                             >JOGOS</button>
                             <button 
                                 onClick={() => setActiveTab('videos')}
-                                className={`px-3 py-1 text-xs font-bold rounded transition-all ${activeTab === 'videos' ? 'bg-white dark:bg-slate-700 shadow text-brand-yellow' : 'text-slate-400'}`}
+                                className={`px-3 py-1 text-xs font-bold rounded transition-all ${activeTab === 'videos' ? 'bg-white dark:bg-slate-700 shadow text-brand-yellow' : 'text-slate-500'}`}
                             >VÍDEOS</button>
                         </div>
                     </div>
@@ -468,11 +468,11 @@ const Dashboard = () => {
                                     </div>
                                     <div className="flex-1">
                                     <div className="flex justify-between items-center mb-1">
-                                        <span className="text-xs font-bold dark:text-white">Brasília</span>
+                                        <span className="text-xs font-bold text-slate-900 dark:text-white">Brasília</span>
                                         <span className="text-[10px] bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-300">19:30</span>
                                     </div>
                                     <div className="flex justify-between items-center">
-                                        <span className="text-xs font-bold dark:text-white">Ceilândia</span>
+                                        <span className="text-xs font-bold text-slate-900 dark:text-white">Ceilândia</span>
                                         <span className="text-[10px] text-brand-green font-bold">Gin. SESC</span>
                                     </div>
                                     </div>
@@ -493,7 +493,7 @@ const Dashboard = () => {
                                     <span className="text-white text-xs font-bold">Resumo da Rodada #14</span>
                                 </div>
                             </div>
-                            <p className="text-xs text-slate-500">Confira os gols e melhores momentos da rodada com a análise de Julia.</p>
+                            <p className="text-xs text-slate-600 dark:text-slate-500">Confira os gols e melhores momentos da rodada com a análise de Julia.</p>
                             <button className="w-full bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2 rounded flex items-center justify-center gap-2">
                                 <Youtube size={14} /> VER NO CANAL
                             </button>
@@ -508,7 +508,7 @@ const Dashboard = () => {
 };
 
 const ClubsSection = () => (
-  <section id="clubes" className="py-16 bg-slate-50 dark:bg-slate-900/50">
+  <section id="clubes" className="py-16 bg-slate-50 dark:bg-slate-900/50 transition-colors duration-300">
     <SectionSeparator color="green" />
     <div className="container mx-auto px-4 mt-12">
         <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
@@ -521,14 +521,14 @@ const ClubsSection = () => (
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
            {CLUBES.map((clube) => (
              <Reveal key={clube.id} className="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center hover:border-brand-green transition-all group">
-                <div className="w-20 h-20 bg-slate-100 dark:bg-slate-800 rounded-full mb-4 flex items-center justify-center font-bold text-2xl text-slate-300 group-hover:bg-white group-hover:shadow-md transition-all">
+                <div className="w-20 h-20 bg-slate-100 dark:bg-slate-800 rounded-full mb-4 flex items-center justify-center font-bold text-2xl text-slate-400 group-hover:bg-white group-hover:shadow-md transition-all">
                     {clube.emblem}
                 </div>
                 <h3 className="text-lg font-black text-slate-900 dark:text-white mb-1">{clube.nome}</h3>
                 <span className="text-xs font-bold text-brand-green uppercase tracking-wider mb-3 flex items-center gap-1">
                     <MapPin size={10} /> {clube.cidade}
                 </span>
-                <p className="text-sm text-slate-500 dark:text-slate-400 leading-snug">
+                <p className="text-sm text-slate-600 dark:text-slate-400 leading-snug">
                     {clube.historia}
                 </p>
                 <button className="mt-4 text-xs font-bold text-slate-400 hover:text-brand-green border border-slate-200 dark:border-slate-800 px-3 py-1 rounded-full hover:border-brand-green transition-all">
@@ -542,7 +542,7 @@ const ClubsSection = () => (
 );
 
 const NewsSection = () => (
-  <section id="noticias" className="py-16 bg-white dark:bg-slate-950">
+  <section id="noticias" className="py-16 bg-white dark:bg-slate-950 transition-colors duration-300">
     <SectionSeparator color="yellow" />
     <div className="container mx-auto px-4 mt-12">
       <SectionTitle title="Últimas Notícias" subtitle="Fique por dentro" />
@@ -564,7 +564,7 @@ const NewsSection = () => (
               <h3 className="text-xl font-bold text-slate-900 dark:text-white leading-tight mb-3 group-hover:text-brand-green transition-colors">
                 {news.titulo}
               </h3>
-              <p className="text-slate-500 dark:text-slate-400 text-sm mb-4 line-clamp-2">
+              <p className="text-slate-600 dark:text-slate-400 text-sm mb-4 line-clamp-2">
                 {news.resumo}
               </p>
               <a href="#" className={`inline-flex items-center text-xs font-black uppercase transition-colors gap-1 ${idx % 2 === 0 ? 'text-brand-green' : 'text-brand-yellow'}`}>
@@ -579,13 +579,13 @@ const NewsSection = () => (
 );
 
 const PartnersSection = () => (
-  <section id="parceiros" className="py-16 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-900">
+  <section id="parceiros" className="py-16 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-900 transition-colors duration-300">
     <div className="container mx-auto px-4">
       <SectionTitle title="Parceiros" subtitle="Quem apoia o Futsal" />
       
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
         {PARCEIROS.map((p) => (
-            <div key={p.id} className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center hover:border-brand-green/50 transition-colors cursor-pointer group">
+            <div key={p.id} className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center hover:border-brand-green/50 transition-colors cursor-pointer group shadow-sm">
                 <div className="h-16 flex items-center justify-center font-black text-2xl text-slate-400 group-hover:text-slate-800 dark:group-hover:text-white transition-colors uppercase mb-2">
                     {p.nome}
                 </div>
