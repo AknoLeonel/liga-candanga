@@ -2,11 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { 
   Calendar, ChevronRight, Menu, Search, PlayCircle, Clock, 
   TrendingUp, Shield, MapPin, X, Instagram, Facebook, Twitter, 
-  Moon, Sun, Users, Video, ChevronDown
+  Moon, Sun, Users, Video, ChevronDown, Radio, Lock, Youtube, Star
 } from 'lucide-react';
 
-// IMPORTANTE: Certifique-se de que a imagem está na pasta assets
-import logoLiga from '/public/logoligasemfundo.png';
+// CORREÇÃO: Como a imagem está na pasta 'public', não usamos import.
+// A barra "/" refere-se à raiz da pasta public.
+const logoLiga = "/logoligasemfundo.png";
 
 // --- MOCK DATA ---
 
@@ -54,6 +55,20 @@ const TABELA = [
   { pos: 3, time: "Aruc", pts: 18, j: 9, v: 6, sg: 8, emblem: "ARU" },
   { pos: 4, time: "Real Brasília", pts: 15, j: 8, v: 4, sg: 2, emblem: "REA" },
   { pos: 5, time: "Planaltina", pts: 12, j: 9, v: 3, sg: -5, emblem: "PLA" },
+];
+
+const CLUBES = [
+  { id: 1, nome: "Brasília Futsal", cidade: "Brasília", historia: "Fundado em 1999, maior campeão do DF.", emblem: "BRA" },
+  { id: 2, nome: "AJJR Futsal", cidade: "Taguatinga", historia: "Foco na formação de atletas de base.", emblem: "AJR" },
+  { id: 3, nome: "Aruc", cidade: "Cruzeiro", historia: "Tradicional clube cultural e esportivo.", emblem: "ARU" },
+  { id: 4, nome: "Planaltina EC", cidade: "Planaltina", historia: "A força da torcida do norte.", emblem: "PEC" },
+];
+
+const PARCEIROS = [
+  { id: 1, nome: "BAND", tipo: "Mídia Oficial", resumo: "Transmissão exclusiva dos jogos finais." },
+  { id: 2, nome: "BRB", tipo: "Patrocinador Master", resumo: "Banco de Brasília, apoiando o esporte local." },
+  { id: 3, nome: "Secretaria de Esportes", tipo: "Apoio Institucional", resumo: "Fomento ao esporte no Distrito Federal." },
+  { id: 4, nome: "GDF", tipo: "Governo", resumo: "Governo do Distrito Federal." },
 ];
 
 // --- HOOKS & UTILS ---
@@ -107,15 +122,36 @@ const Reveal = ({ children, className = "", delay = 0, direction = "up" }) => {
 
 // --- SUB-COMPONENTS ---
 
-const NavItem = ({ label, href = "#", active }) => (
-  <a 
-    href={href} 
-    className={`relative px-3 py-2 text-sm font-bold uppercase tracking-wider transition-colors ${active ? 'text-brand-green' : 'text-slate-300 dark:text-slate-400 hover:text-brand-yellow dark:hover:text-brand-yellow'}`}
-  >
-    {label}
-    {active && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-green shadow-[0_0_10px_rgba(0,153,51,0.8)]"></span>}
-  </a>
-);
+const NavItem = ({ label, href = "#", active, hasSubmenu, submenuItems }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div 
+      className="relative group"
+      onMouseEnter={() => setIsOpen(true)}
+      onMouseLeave={() => setIsOpen(false)}
+    >
+      <a 
+        href={href} 
+        className={`flex items-center gap-1 px-3 py-2 text-sm font-bold uppercase tracking-wider transition-colors ${active ? 'text-brand-green' : 'text-slate-300 dark:text-slate-400 hover:text-brand-yellow dark:hover:text-brand-yellow'}`}
+      >
+        {label}
+        {hasSubmenu && <ChevronDown size={14} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />}
+        {active && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-green shadow-[0_0_10px_rgba(0,153,51,0.8)]"></span>}
+      </a>
+      
+      {hasSubmenu && isOpen && (
+        <div className="absolute top-full left-0 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xl py-2 min-w-[180px] flex flex-col z-50 animate-fade-in-down">
+          {submenuItems.map((item, idx) => (
+             <a key={idx} href={item.href} className="px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-brand-green transition-colors border-b border-transparent hover:border-l-4 hover:border-l-brand-green">
+               {item.label}
+             </a>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
 const MobileMenuItem = ({ label, href = "#" }) => (
   <a href={href} className="block py-4 text-lg font-bold text-slate-800 dark:text-slate-200 border-b border-slate-200 dark:border-slate-800 hover:text-brand-green hover:pl-2 transition-all">
@@ -135,6 +171,10 @@ const SectionTitle = ({ title, subtitle }) => (
   </div>
 );
 
+const SectionSeparator = ({ color = "green" }) => (
+  <div className={`h-2 w-full bg-gradient-to-r ${color === "green" ? "from-brand-green via-emerald-600 to-slate-900" : "from-brand-yellow via-orange-500 to-slate-900"}`}></div>
+);
+
 // --- MAIN COMPONENTS ---
 
 const Header = ({ theme, toggleTheme }) => {
@@ -149,36 +189,40 @@ const Header = ({ theme, toggleTheme }) => {
 
   return (
     <>
-      <header className={`fixed top-0 w-full z-50 transition-all duration-300 border-b ${isScrolled ? 'bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-slate-200 dark:border-slate-800 py-2 shadow-lg' : 'bg-transparent border-transparent py-4 bg-gradient-to-b from-black/80 to-transparent'}`}>
+      <header className={`fixed top-0 w-full z-50 transition-all duration-300 border-b ${isScrolled ? 'bg-white/95 dark:bg-slate-950/95 backdrop-blur-md border-slate-200 dark:border-slate-800 py-2 shadow-lg' : 'bg-transparent border-transparent py-4 bg-gradient-to-b from-black/90 to-transparent'}`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             
             {/* Logo Area */}
             <div className="flex items-center gap-3 group cursor-pointer z-50">
-              <div className="relative w-12 h-12 md:w-16 md:h-16 flex items-center justify-center">
-                {/* LOGO SUBSTITUÍDO AQUI */}
-                <img 
-                  src={logoLiga} 
-                  alt="Logo Liga Candanga" 
-                  className="w-full h-full object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300"
-                />
+              <div className="relative w-12 h-12 md:w-16 md:h-16 flex items-center justify-center bg-white/5 rounded-full backdrop-blur-sm p-1 border border-white/10 shadow-lg group-hover:scale-105 transition-transform">
+                 <img src={logoLiga} alt="Logo Liga Candanga" className="w-full h-full object-contain" />
               </div>
               <div className="flex flex-col">
                 <h1 className="text-lg md:text-2xl font-black tracking-tighter leading-none text-slate-900 dark:text-white group-hover:text-brand-green transition-colors">
                   LIGA <span className="text-brand-yellow">CANDANGA</span>
                 </h1>
-                <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] text-slate-600 dark:text-slate-400 uppercase">de Futsal - Distrito Federal</span>
+                <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] text-slate-600 dark:text-slate-400 uppercase">Distrito Federal</span>
               </div>
             </div>
 
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-1 bg-slate-100/50 dark:bg-slate-900/50 px-4 py-1.5 rounded-full border border-slate-200 dark:border-white/10 backdrop-blur-sm">
-              <NavItem label="Início" active />
-              <NavItem label="Notícias" />
-              <NavItem label="Tabelas" />
-              <NavItem label="Clubes" />
-              <NavItem label="TV Candanga" />
-              <NavItem label="Sobre" />
+            <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 dark:bg-slate-900/80 px-4 py-1.5 rounded-full border border-slate-200 dark:border-white/10 backdrop-blur-md shadow-lg">
+              <NavItem label="Início" href="#" active />
+              <NavItem 
+                label="Campeonatos" 
+                href="#campeonatos"
+                hasSubmenu 
+                submenuItems={[
+                  { label: 'Tabela de Classificação', href: '#tabela' },
+                  { label: 'Clubes Filiados', href: '#clubes' },
+                  { label: 'Agenda de Jogos', href: '#agenda' }
+                ]}
+              />
+              <NavItem label="Notícias" href="#noticias" />
+              <NavItem label="Parceiros" href="#parceiros" />
+              <NavItem label="TV Candanga" href="#youtube" />
+              <NavItem label="Sobre" href="#footer" />
             </nav>
 
             {/* Actions */}
@@ -191,9 +235,10 @@ const Header = ({ theme, toggleTheme }) => {
                 {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
               </button>
 
-              <button className="hidden md:flex items-center gap-2 bg-brand-green hover:bg-green-600 text-white px-5 py-2 rounded-md font-bold text-sm uppercase tracking-wide transition-all shadow-[0_0_15px_rgba(0,153,51,0.4)] hover:shadow-[0_0_25px_rgba(0,153,51,0.6)] hover:-translate-y-0.5">
-                <Users size={16} /> Área do Clube
-              </button>
+              <div className="hidden md:flex gap-2">
+                 <a href="https://www.youtube.com" target="_blank" className="p-2 text-slate-400 hover:text-red-600 transition-colors"><Youtube size={20}/></a>
+                 <a href="https://www.instagram.com" target="_blank" className="p-2 text-slate-400 hover:text-pink-600 transition-colors"><Instagram size={20}/></a>
+              </div>
 
               {/* Mobile Toggle */}
               <button 
@@ -210,17 +255,18 @@ const Header = ({ theme, toggleTheme }) => {
 
       {/* Mobile Menu Overlay */}
       <div className={`fixed inset-0 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl z-40 transition-transform duration-300 lg:hidden flex flex-col pt-24 px-6 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-        <nav className="flex flex-col gap-2">
+        <nav className="flex flex-col gap-2 overflow-y-auto max-h-[70vh]">
           <MobileMenuItem label="Início" />
-          <MobileMenuItem label="Notícias" />
-          <MobileMenuItem label="Tabelas e Jogos" />
+          <MobileMenuItem label="Campeonatos (Tabela, Jogos)" />
           <MobileMenuItem label="Clubes Filiados" />
+          <MobileMenuItem label="Notícias" />
+          <MobileMenuItem label="Patrocinadores" />
           <MobileMenuItem label="TV Candanga (Ao Vivo)" />
-          <MobileMenuItem label="Institucional" />
-          <MobileMenuItem label="Seja um Parceiro" />
+          <MobileMenuItem label="Rádio Liga" />
+          <MobileMenuItem label="Administração (Lídio)" />
         </nav>
         
-        <div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-4">
+        <div className="mt-auto pb-8 pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-4">
           <div className="flex items-center justify-between text-slate-900 dark:text-white font-bold">
             <span>Modo Escuro</span>
             <button 
@@ -230,8 +276,8 @@ const Header = ({ theme, toggleTheme }) => {
               <div className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${theme === 'dark' ? 'translate-x-6' : 'translate-x-0'}`}></div>
             </button>
           </div>
-          <button className="w-full bg-brand-yellow text-slate-900 py-3 rounded-lg font-black uppercase shadow-lg">
-            Inscreva sua Equipe
+          <button className="w-full bg-brand-yellow text-slate-900 py-3 rounded-lg font-black uppercase shadow-lg hover:brightness-110 transition-all">
+            Área do Associado
           </button>
         </div>
       </div>
@@ -246,7 +292,7 @@ const ScoreTicker = () => (
     
     <div className="flex gap-4 animate-marquee pl-4 hover:pause">
       {[...PLACARES, ...PLACARES, ...PLACARES].map((jogo, idx) => (
-        <div key={`${jogo.id}-${idx}`} className="inline-flex flex-col justify-center min-w-[200px] md:min-w-[240px] bg-white dark:bg-slate-800 p-2 md:p-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-brand-green transition-colors cursor-pointer shadow-sm">
+        <div key={`${jogo.id}-${idx}`} className={`inline-flex flex-col justify-center min-w-[200px] md:min-w-[240px] bg-white dark:bg-slate-800 p-2 md:p-3 rounded-lg border hover:border-brand-green transition-colors cursor-pointer shadow-sm ${idx % 2 === 0 ? 'border-l-4 border-l-brand-green border-slate-200 dark:border-slate-700' : 'border-l-4 border-l-brand-yellow border-slate-200 dark:border-slate-700'}`}>
           <div className="flex justify-between items-center mb-1 border-b border-slate-100 dark:border-slate-700 pb-1">
              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{jogo.liga}</span>
              <span className={`text-[10px] font-black uppercase ${jogo.status.includes('AO VIVO') ? 'text-red-500 animate-pulse' : 'text-brand-green'}`}>
@@ -273,23 +319,15 @@ const ScoreTicker = () => (
 
 const Hero = () => (
   <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 overflow-hidden">
-    {/* Background Image & Overlay */}
     <div className="absolute inset-0 z-0">
-      <img 
-        src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1936&auto=format&fit=crop" 
-        alt="Futsal background" 
-        className="w-full h-full object-cover object-center"
-      />
+      <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1936&auto=format&fit=crop" alt="Futsal background" className="w-full h-full object-cover object-center" />
       <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent opacity-95 dark:opacity-90"></div>
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
     </div>
 
     <div className="container mx-auto px-4 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
       <Reveal direction="up" className="max-w-2xl">
         <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/20 text-brand-green border border-brand-green/30 text-xs font-black uppercase tracking-widest mb-6 backdrop-blur-md">
-          {/* LOGO SUBSTITUÍDO AQUI */}
-          <img src={logoLiga} alt="Logo" className="w-4 h-4 object-contain" /> 
-          Temporada 2025
+          <img src={logoLiga} alt="Logo" className="w-4 h-4 object-contain" /> Temporada 2025
         </span>
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-[0.95] mb-6 drop-shadow-2xl">
           O FUTURO DO <br/>
@@ -302,182 +340,220 @@ const Hero = () => (
         </p>
         <div className="flex flex-wrap gap-4">
           <a href="#tabela" className="bg-brand-green hover:bg-green-600 text-white px-8 py-4 rounded-lg font-black uppercase tracking-wide transition-all shadow-[0_4px_20px_rgba(0,153,51,0.4)] flex items-center gap-2 group">
-             Ver Classificação <ChevronRight className="group-hover:translate-x-1 transition-transform"/>
+             Ver Tabela <ChevronRight className="group-hover:translate-x-1 transition-transform"/>
           </a>
           <a href="#youtube" className="bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-md px-8 py-4 rounded-lg font-bold uppercase tracking-wide transition-all flex items-center gap-3">
-             <PlayCircle size={20} className="text-brand-yellow"/> Assista ao Vivo
+             <PlayCircle size={20} className="text-brand-yellow"/> TV Candanga
           </a>
         </div>
       </Reveal>
-
-      {/* Destaque Card Flutuante (Desktop Only) */}
+      
+      {/* Dynamic Floating Card */}
       <Reveal direction="left" delay={200} className="hidden lg:block relative">
          <div className="relative z-10 bg-slate-900/40 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-2xl animate-float">
             <div className="flex items-start gap-4 mb-4">
                <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?q=80&w=1740&auto=format&fit=crop" className="w-24 h-24 rounded-lg object-cover border-2 border-brand-yellow" alt="Destaque"/>
                <div>
-                 <span className="text-brand-yellow text-xs font-bold uppercase">Última Notícia</span>
-                 <h3 className="text-white font-bold text-lg leading-tight mt-1">Final Histórica: Brasília Futsal levanta a taça!</h3>
-                 <a href="#" className="text-brand-green text-xs font-black mt-2 inline-block hover:underline">LER MATÉRIA &rarr;</a>
+                 <span className="text-brand-yellow text-xs font-bold uppercase">Ao Vivo na Rádio</span>
+                 <h3 className="text-white font-bold text-lg leading-tight mt-1">Sintonize na emoção do futsal!</h3>
+                 <a href="#" className="text-brand-green text-xs font-black mt-2 inline-flex items-center gap-1 hover:underline"><Radio size={14}/> OUVIR AGORA</a>
                </div>
             </div>
-            <div className="bg-black/50 rounded-xl p-4 flex justify-between items-center border border-white/5">
-                <div className="text-center">
-                    <span className="block text-slate-400 text-[10px] uppercase font-bold">Próximo Jogo</span>
-                    <span className="block text-white font-black text-xl">SÁB</span>
-                </div>
-                <div className="flex items-center gap-3">
-                    <span className="font-bold text-white">BRA</span>
-                    <span className="text-brand-yellow font-black text-xl">VS</span>
-                    <span className="font-bold text-white">CEI</span>
-                </div>
-                <div className="text-center">
-                   <span className="block text-slate-400 text-[10px] uppercase font-bold">Horário</span>
-                   <span className="block text-white font-black text-xl">15:00</span>
-                </div>
-            </div>
          </div>
-         {/* Decorative Blobs */}
-         <div className="absolute -top-10 -right-10 w-64 h-64 bg-brand-green rounded-full blur-[100px] opacity-20 animate-pulse"></div>
-         <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-brand-yellow rounded-full blur-[100px] opacity-20"></div>
       </Reveal>
     </div>
   </section>
 );
 
-const Dashboard = () => (
-  <section id="tabela" className="py-16 md:py-24 bg-white dark:bg-slate-950 relative">
-    <div className="container mx-auto px-4 relative z-10">
-      
-      <SectionTitle title="Classificação" subtitle="Série Ouro 2025" />
+const Dashboard = () => {
+    const [activeTab, setActiveTab] = useState('jogos'); // jogos | videos
 
-      <div className="grid lg:grid-cols-3 gap-8">
+    return (
+    <section id="tabela" className="py-16 md:py-24 bg-white dark:bg-slate-950 relative">
+        <div className="container mx-auto px-4 relative z-10">
         
-        {/* Tabela Principal */}
-        <Reveal className="lg:col-span-2">
-          <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl overflow-hidden">
-             <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50">
-                <div className="flex gap-4">
-                  <button className="text-sm font-black uppercase text-brand-green border-b-2 border-brand-green pb-1">Geral</button>
-                  <button className="text-sm font-bold uppercase text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors pb-1">Mandante</button>
-                  <button className="text-sm font-bold uppercase text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors pb-1">Visitante</button>
+        <SectionTitle title="Campeonatos" subtitle="Tabela & Jogos" />
+
+        <div className="grid lg:grid-cols-3 gap-8">
+            
+            {/* Tabela Principal */}
+            <Reveal className="lg:col-span-2">
+            <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl overflow-hidden relative">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-green to-brand-yellow"></div>
+                <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50">
+                    <div className="flex gap-4">
+                    <button className="text-sm font-black uppercase text-brand-green border-b-2 border-brand-green pb-1">Série Ouro</button>
+                    <button className="text-sm font-bold uppercase text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors pb-1">Série Prata</button>
+                    <button className="text-sm font-bold uppercase text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors pb-1">Feminino</button>
+                    </div>
+                    <button className="text-xs font-bold text-slate-500 hover:text-brand-green flex items-center gap-1">
+                    Ver Completa <ChevronRight size={12}/>
+                    </button>
                 </div>
-                <button className="text-xs font-bold text-slate-500 hover:text-brand-green flex items-center gap-1">
-                  Ver Completa <ChevronRight size={12}/>
-                </button>
-             </div>
-             
-             <div className="overflow-x-auto">
-               <table className="w-full text-sm">
-                 <thead className="bg-slate-100 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 font-bold uppercase text-xs tracking-wider">
-                   <tr>
-                     <th className="py-4 pl-6 text-left w-14">Pos</th>
-                     <th className="py-4 text-left">Clube</th>
-                     <th className="py-4 text-center w-12 text-slate-900 dark:text-white">PTS</th>
-                     <th className="py-4 text-center w-12">J</th>
-                     <th className="py-4 text-center w-12 hidden md:table-cell">V</th>
-                     <th className="py-4 text-center w-12 hidden md:table-cell">SG</th>
-                     <th className="py-4 text-center w-24 pr-6">Últimos</th>
-                   </tr>
-                 </thead>
-                 <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-                   {TABELA.map((time, idx) => (
-                     <tr key={idx} className="hover:bg-white dark:hover:bg-slate-800 transition-colors group">
-                       <td className="py-4 pl-6">
-                         <span className={`flex items-center justify-center w-8 h-8 rounded-lg font-black text-xs ${idx === 0 ? 'bg-brand-yellow text-slate-900 shadow-md' : idx < 4 ? 'bg-brand-green/10 text-brand-green' : 'bg-slate-200 dark:bg-slate-800 text-slate-500'}`}>
-                           {time.pos}º
-                         </span>
-                       </td>
-                       <td className="py-4">
-                         <div className="flex items-center gap-3">
-                           <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-500">
-                             {time.emblem}
-                           </div>
-                           <span className="font-bold text-slate-800 dark:text-slate-200 group-hover:text-brand-green transition-colors">{time.time}</span>
-                         </div>
-                       </td>
-                       <td className="py-4 text-center font-black text-slate-900 dark:text-white text-base">{time.pts}</td>
-                       <td className="py-4 text-center text-slate-500 dark:text-slate-400 font-medium">{time.j}</td>
-                       <td className="py-4 text-center text-slate-500 dark:text-slate-400 font-medium hidden md:table-cell">{time.v}</td>
-                       <td className="py-4 text-center text-slate-500 dark:text-slate-400 font-medium hidden md:table-cell">{time.sg}</td>
-                       <td className="py-4 pr-6">
-                         <div className="flex justify-center gap-1">
-                            {[1,1,1,0,1].map((r, i) => (
-                              <div key={i} className={`w-2 h-2 rounded-full ${r ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                            ))}
-                         </div>
-                       </td>
-                     </tr>
-                   ))}
-                 </tbody>
-               </table>
-             </div>
-          </div>
-        </Reveal>
-
-        {/* Sidebar / Próximos Jogos */}
-        <Reveal delay={200} className="flex flex-col gap-6">
-          <div className="bg-slate-900 text-white p-6 rounded-2xl shadow-xl relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-brand-green/20 rounded-full blur-3xl -mr-10 -mt-10 group-hover:bg-brand-green/30 transition-colors"></div>
-            <div className="relative z-10">
-               <div className="flex items-center gap-2 mb-4 text-brand-yellow">
-                 <Video size={18} />
-                 <span className="font-black uppercase tracking-widest text-xs">Em Destaque</span>
-               </div>
-               <h3 className="text-2xl font-black mb-2">TV CANDANGA</h3>
-               <p className="text-slate-400 text-sm mb-6">Acompanhe todos os jogos ao vivo, replays e melhores momentos no nosso canal oficial.</p>
-               <a href="https://www.youtube.com/@tvcandanga" target="_blank" className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg hover:scale-[1.02]">
-                 <PlayCircle size={18} /> INSCREVER-SE
-               </a>
+                
+                <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                    <thead className="bg-slate-100 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 font-bold uppercase text-xs tracking-wider">
+                    <tr>
+                        <th className="py-4 pl-6 text-left w-14">Pos</th>
+                        <th className="py-4 text-left">Clube</th>
+                        <th className="py-4 text-center w-12 text-slate-900 dark:text-white">PTS</th>
+                        <th className="py-4 text-center w-12">J</th>
+                        <th className="py-4 text-center w-12 hidden md:table-cell">V</th>
+                        <th className="py-4 text-center w-12 hidden md:table-cell">SG</th>
+                        <th className="py-4 text-center w-24 pr-6">Últimos</th>
+                    </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+                    {TABELA.map((time, idx) => (
+                        <tr key={idx} className="hover:bg-white dark:hover:bg-slate-800 transition-colors group">
+                        <td className="py-4 pl-6">
+                            <span className={`flex items-center justify-center w-8 h-8 rounded-lg font-black text-xs ${idx === 0 ? 'bg-brand-yellow text-slate-900 shadow-md' : idx < 4 ? 'bg-brand-green/10 text-brand-green' : 'bg-slate-200 dark:bg-slate-800 text-slate-500'}`}>
+                            {time.pos}º
+                            </span>
+                        </td>
+                        <td className="py-4">
+                            <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-500">
+                                {time.emblem}
+                            </div>
+                            <span className="font-bold text-slate-800 dark:text-slate-200 group-hover:text-brand-green transition-colors">{time.time}</span>
+                            </div>
+                        </td>
+                        <td className="py-4 text-center font-black text-slate-900 dark:text-white text-base">{time.pts}</td>
+                        <td className="py-4 text-center text-slate-500 dark:text-slate-400 font-medium">{time.j}</td>
+                        <td className="py-4 text-center text-slate-500 dark:text-slate-400 font-medium hidden md:table-cell">{time.v}</td>
+                        <td className="py-4 text-center text-slate-500 dark:text-slate-400 font-medium hidden md:table-cell">{time.sg}</td>
+                        <td className="py-4 pr-6">
+                            <div className="flex justify-center gap-1">
+                                {[1,1,1,0,1].map((r, i) => (
+                                <div key={i} className={`w-2 h-2 rounded-full ${r ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                                ))}
+                            </div>
+                        </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+                </div>
             </div>
-          </div>
+            </Reveal>
 
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-lg">
-             <h4 className="font-bold text-slate-900 dark:text-white uppercase mb-4 flex items-center gap-2">
-               <Calendar size={18} className="text-brand-green"/> Agenda Semanal
-             </h4>
-             <div className="space-y-3">
-               {[1, 2, 3].map((i) => (
-                 <div key={i} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-brand-green/30 transition-all cursor-pointer">
-                    <div className="flex flex-col items-center min-w-[3rem] border-r border-slate-200 dark:border-slate-700 pr-3 mr-3">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase">DEZ</span>
-                      <span className="text-xl font-black text-slate-800 dark:text-white">18</span>
+            {/* Sidebar / Agenda */}
+            <Reveal delay={200} className="flex flex-col gap-6">
+                <div id="agenda" className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-lg relative overflow-hidden">
+                    <div className="flex items-center justify-between mb-6">
+                        <h4 className="font-bold text-slate-900 dark:text-white uppercase flex items-center gap-2">
+                        <Calendar size={18} className="text-brand-green"/> Agenda
+                        </h4>
+                        <div className="flex bg-slate-100 dark:bg-slate-800 rounded-lg p-1">
+                            <button 
+                                onClick={() => setActiveTab('jogos')}
+                                className={`px-3 py-1 text-xs font-bold rounded transition-all ${activeTab === 'jogos' ? 'bg-white dark:bg-slate-700 shadow text-brand-green' : 'text-slate-400'}`}
+                            >JOGOS</button>
+                            <button 
+                                onClick={() => setActiveTab('videos')}
+                                className={`px-3 py-1 text-xs font-bold rounded transition-all ${activeTab === 'videos' ? 'bg-white dark:bg-slate-700 shadow text-brand-yellow' : 'text-slate-400'}`}
+                            >VÍDEOS</button>
+                        </div>
                     </div>
-                    <div className="flex-1">
-                      <div className="flex justify-between items-center mb-1">
-                         <span className="text-xs font-bold dark:text-white">Brasília</span>
-                         <span className="text-[10px] bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-300">19:30</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                         <span className="text-xs font-bold dark:text-white">Ceilândia</span>
-                         <span className="text-[10px] text-brand-green font-bold">Gin. SESC</span>
-                      </div>
-                    </div>
-                 </div>
-               ))}
-             </div>
-             <button className="w-full mt-4 text-xs font-bold text-slate-500 hover:text-brand-green transition-colors uppercase tracking-wide">
-               Ver calendário completo
-             </button>
-          </div>
-        </Reveal>
-      </div>
+
+                    {activeTab === 'jogos' ? (
+                        <div className="space-y-3">
+                            {[1, 2, 3].map((i) => (
+                                <div key={i} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 border-l-2 border-l-brand-green hover:border-brand-green transition-all cursor-pointer">
+                                    <div className="flex flex-col items-center min-w-[3rem] border-r border-slate-200 dark:border-slate-700 pr-3 mr-3">
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase">DEZ</span>
+                                    <span className="text-xl font-black text-slate-800 dark:text-white">18</span>
+                                    </div>
+                                    <div className="flex-1">
+                                    <div className="flex justify-between items-center mb-1">
+                                        <span className="text-xs font-bold dark:text-white">Brasília</span>
+                                        <span className="text-[10px] bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-300">19:30</span>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-xs font-bold dark:text-white">Ceilândia</span>
+                                        <span className="text-[10px] text-brand-green font-bold">Gin. SESC</span>
+                                    </div>
+                                    </div>
+                                </div>
+                            ))}
+                            <button className="w-full mt-4 text-xs font-bold text-slate-500 hover:text-brand-green transition-colors uppercase tracking-wide">
+                                Ver calendário completo
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="space-y-4 animate-fade-in-down">
+                            <div className="relative rounded-xl overflow-hidden group cursor-pointer">
+                                <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=1000&auto=format&fit=crop" className="w-full h-40 object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt="Resumo"/>
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <PlayCircle size={40} className="text-white drop-shadow-lg group-hover:scale-110 transition-transform" />
+                                </div>
+                                <div className="absolute bottom-0 left-0 w-full p-2 bg-gradient-to-t from-black/80 to-transparent">
+                                    <span className="text-white text-xs font-bold">Resumo da Rodada #14</span>
+                                </div>
+                            </div>
+                            <p className="text-xs text-slate-500">Confira os gols e melhores momentos da rodada com a análise de Julia.</p>
+                            <button className="w-full bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2 rounded flex items-center justify-center gap-2">
+                                <Youtube size={14} /> VER NO CANAL
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </Reveal>
+        </div>
+        </div>
+    </section>
+    );
+};
+
+const ClubsSection = () => (
+  <section id="clubes" className="py-16 bg-slate-50 dark:bg-slate-900/50">
+    <SectionSeparator color="green" />
+    <div className="container mx-auto px-4 mt-12">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+           <SectionTitle title="Clubes Filiados" subtitle="Quem faz a Liga" />
+           <button className="bg-brand-yellow hover:bg-yellow-400 text-slate-900 px-6 py-3 rounded-lg font-black uppercase shadow-lg hover:shadow-yellow-500/20 flex items-center gap-2 transition-all hover:-translate-y-1">
+             <Users size={18} /> Login do Associado
+           </button>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+           {CLUBES.map((clube) => (
+             <Reveal key={clube.id} className="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center hover:border-brand-green transition-all group">
+                <div className="w-20 h-20 bg-slate-100 dark:bg-slate-800 rounded-full mb-4 flex items-center justify-center font-bold text-2xl text-slate-300 group-hover:bg-white group-hover:shadow-md transition-all">
+                    {clube.emblem}
+                </div>
+                <h3 className="text-lg font-black text-slate-900 dark:text-white mb-1">{clube.nome}</h3>
+                <span className="text-xs font-bold text-brand-green uppercase tracking-wider mb-3 flex items-center gap-1">
+                    <MapPin size={10} /> {clube.cidade}
+                </span>
+                <p className="text-sm text-slate-500 dark:text-slate-400 leading-snug">
+                    {clube.historia}
+                </p>
+                <button className="mt-4 text-xs font-bold text-slate-400 hover:text-brand-green border border-slate-200 dark:border-slate-800 px-3 py-1 rounded-full hover:border-brand-green transition-all">
+                    Ver Perfil
+                </button>
+             </Reveal>
+           ))}
+        </div>
     </div>
   </section>
 );
 
 const NewsSection = () => (
-  <section className="py-16 bg-slate-50 dark:bg-slate-900/50">
-    <div className="container mx-auto px-4">
+  <section id="noticias" className="py-16 bg-white dark:bg-slate-950">
+    <SectionSeparator color="yellow" />
+    <div className="container mx-auto px-4 mt-12">
       <SectionTitle title="Últimas Notícias" subtitle="Fique por dentro" />
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {NOTICIAS_DESTAQUE.map((news, idx) => (
-          <Reveal key={news.id} delay={idx * 150} className="bg-white dark:bg-slate-950 rounded-2xl overflow-hidden shadow-lg border border-slate-200 dark:border-slate-800 group hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+          <Reveal key={news.id} delay={idx * 150} className={`bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-lg border group hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 ${idx % 2 === 0 ? 'border-brand-green/30 shadow-green-900/5' : 'border-brand-yellow/30 shadow-yellow-900/5'}`}>
             <div className="relative h-48 overflow-hidden">
               <img src={news.imagem} alt={news.titulo} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60"></div>
-              <span className="absolute top-4 left-4 bg-brand-green text-white text-[10px] font-black px-2 py-1 rounded shadow-md uppercase tracking-wide">
+              <span className={`absolute top-4 left-4 text-white text-[10px] font-black px-2 py-1 rounded shadow-md uppercase tracking-wide ${idx % 2 === 0 ? 'bg-brand-green' : 'bg-brand-yellow text-black'}`}>
                 {news.categoria}
               </span>
             </div>
@@ -491,7 +567,7 @@ const NewsSection = () => (
               <p className="text-slate-500 dark:text-slate-400 text-sm mb-4 line-clamp-2">
                 {news.resumo}
               </p>
-              <a href="#" className="inline-flex items-center text-xs font-black uppercase text-brand-green hover:text-brand-yellow transition-colors gap-1">
+              <a href="#" className={`inline-flex items-center text-xs font-black uppercase transition-colors gap-1 ${idx % 2 === 0 ? 'text-brand-green' : 'text-brand-yellow'}`}>
                 Ler mais <ChevronRight size={14} />
               </a>
             </div>
@@ -502,16 +578,20 @@ const NewsSection = () => (
   </section>
 );
 
-const Sponsors = () => (
-  <section className="py-12 bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-900">
-    <div className="container mx-auto px-4 text-center">
-      <h4 className="text-sm font-bold text-slate-400 uppercase tracking-[0.2em] mb-8">Patrocinadores Oficiais</h4>
-      <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 hover:opacity-100 transition-opacity">
-        {/* Placeholder Logos */}
-        {['BAND', 'BRB', 'Secretaria de Esportes', 'GDF'].map((sponsor, i) => (
-          <div key={i} className="h-12 flex items-center justify-center font-black text-2xl text-slate-300 dark:text-slate-700 uppercase">
-             {sponsor}
-          </div>
+const PartnersSection = () => (
+  <section id="parceiros" className="py-16 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-900">
+    <div className="container mx-auto px-4">
+      <SectionTitle title="Parceiros" subtitle="Quem apoia o Futsal" />
+      
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {PARCEIROS.map((p) => (
+            <div key={p.id} className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center hover:border-brand-green/50 transition-colors cursor-pointer group">
+                <div className="h-16 flex items-center justify-center font-black text-2xl text-slate-400 group-hover:text-slate-800 dark:group-hover:text-white transition-colors uppercase mb-2">
+                    {p.nome}
+                </div>
+                <span className="text-[10px] font-bold text-brand-green uppercase mb-2">{p.tipo}</span>
+                <p className="text-xs text-slate-500">{p.resumo}</p>
+            </div>
         ))}
       </div>
     </div>
@@ -519,15 +599,14 @@ const Sponsors = () => (
 );
 
 const Footer = () => (
-  <footer className="bg-slate-950 text-slate-400 pt-16 pb-8 border-t border-brand-green">
+  <footer id="footer" className="bg-slate-950 text-slate-400 pt-16 pb-8 border-t-4 border-brand-green relative">
     <div className="container mx-auto px-4">
       <div className="grid md:grid-cols-4 gap-12 mb-12">
         
         {/* Brand */}
         <div className="col-span-1 md:col-span-2">
           <div className="flex items-center gap-2 mb-6">
-             <div className="w-14 h-16 rounded flex items-center justify-center p-1">
-               {/* LOGO SUBSTITUÍDO AQUI */}
+             <div className="w-12 h-12 bg-white rounded flex items-center justify-center p-1">
                <img src={logoLiga} alt="Logo Liga Candanga" className="w-full h-full object-contain" />
              </div>
              <div className="leading-tight">
@@ -539,21 +618,21 @@ const Footer = () => (
             Fomentando o futsal no Distrito Federal, proporcionando desenvolvimento técnico e social através de competições de alto nível. O futuro do futsal começa aqui.
           </p>
           <div className="flex gap-4">
-             <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-brand-green hover:text-white transition-all"><Instagram size={18}/></a>
-             <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-brand-green hover:text-white transition-all"><Facebook size={18}/></a>
-             <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-brand-green hover:text-white transition-all"><Twitter size={18}/></a>
+             <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-brand-green hover:text-white transition-all" title="Instagram"><Instagram size={18}/></a>
+             <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-red-600 hover:text-white transition-all" title="YouTube"><Youtube size={18}/></a>
+             <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-blue-500 hover:text-white transition-all" title="Rádio Liga"><Radio size={18}/></a>
           </div>
         </div>
 
         {/* Links */}
         <div>
-          <h5 className="text-white font-bold uppercase tracking-wider text-xs mb-6">Campeonatos</h5>
+          <h5 className="text-white font-bold uppercase tracking-wider text-xs mb-6">Navegação</h5>
           <ul className="space-y-3 text-sm">
-            <li><a href="#" className="hover:text-brand-green transition-colors">Série Ouro</a></li>
-            <li><a href="#" className="hover:text-brand-green transition-colors">Série Prata</a></li>
-            <li><a href="#" className="hover:text-brand-green transition-colors">Feminino</a></li>
-            <li><a href="#" className="hover:text-brand-green transition-colors">Base (Candanguinha)</a></li>
-            <li><a href="#" className="hover:text-brand-green transition-colors">Social</a></li>
+            <li><a href="#" className="hover:text-brand-green transition-colors">Tabela</a></li>
+            <li><a href="#" className="hover:text-brand-green transition-colors">Clubes</a></li>
+            <li><a href="#" className="hover:text-brand-green transition-colors">Notícias</a></li>
+            <li><a href="#" className="hover:text-brand-green transition-colors">TV Candanga</a></li>
+            <li><a href="#" className="hover:text-brand-green transition-colors">Contato</a></li>
           </ul>
         </div>
 
@@ -572,10 +651,9 @@ const Footer = () => (
 
       <div className="border-t border-slate-900 pt-8 flex flex-col md:flex-row justify-between items-center text-xs gap-4">
         <p>&copy; 2025 Liga Candanga de Futsal. Todos os direitos reservados.</p>
-        <div className="flex gap-6">
-          <a href="#" className="hover:text-white">Política de Privacidade</a>
+        <div className="flex items-center gap-6">
+          <a href="#" className="hover:text-white flex items-center gap-1 text-brand-yellow font-bold"><Lock size={12}/> Administração (Lídio)</a>
           <a href="#" className="hover:text-white">Termos de Uso</a>
-          <a href="#" className="hover:text-white">Contato</a>
         </div>
       </div>
     </div>
@@ -595,8 +673,15 @@ const App = () => {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         .animate-marquee {
           animation: marquee 40s linear infinite;
+        }
+        .animate-fade-in-down {
+            animation: fadeInDown 0.2s ease-out forwards;
         }
         .hover\\:pause:hover {
           animation-play-state: paused;
@@ -622,8 +707,9 @@ const App = () => {
         <ScoreTicker />
         <Hero />
         <Dashboard />
+        <ClubsSection />
         <NewsSection />
-        <Sponsors />
+        <PartnersSection />
       </main>
 
       <Footer />
