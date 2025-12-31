@@ -2,14 +2,127 @@ import React, { useEffect, useRef, useState } from 'react';
 import { 
   Calendar, ChevronRight, Menu, Search, PlayCircle, Clock, 
   TrendingUp, Shield, MapPin, X, Instagram, Facebook, Twitter, 
-  Moon, Sun, Users, Video, ChevronDown, Radio, Lock, Youtube, Star
+  Moon, Sun, Users, Video, ChevronDown, Radio, Lock, Youtube, Star,
+  FileText, Download, CheckCircle, Info, DollarSign
 } from 'lucide-react';
 
 // A barra "/" refere-se à raiz da pasta public.
 const logoLiga = "/logoligasemfundo.png";
 
-// --- MOCK DATA ---
+// --- DADOS REAIS DE TRANSPARÊNCIA (Extraídos do seu texto) ---
+const TRANSPARENCIA_DATA = [
+  { 
+    id: '85/2025', 
+    termo: 'TF 85/2025',
+    objeto: 'BRASILEIRO DE LIGAS SUB 17', 
+    valor: 'R$ 1.487.682,19', 
+    situacao: 'Em Análise', 
+    data: '05/02/2025',
+    detalhes: 'Prestação de Contas em Análise. Plano de Trabalho: TF 85/2025.',
+    editais: []
+  },
+  { 
+    id: '106/2024', 
+    termo: 'TF 106/2024',
+    objeto: 'BRASILEIRO DE LIGAS 2024', 
+    valor: 'R$ 999.369,00', 
+    situacao: 'Em Análise', 
+    data: '05/02/2025',
+    detalhes: 'Prestação de Contas em Análise. Plano de Trabalho: TF 106/2024.',
+    editais: []
+  },
+  { 
+    id: '963075', 
+    termo: 'TF 963075',
+    objeto: 'Circuito de Futebol no Entorno do Distrito Federal', 
+    valor: 'R$ 200.000,00', 
+    situacao: 'Em Execução', 
+    data: '05/08/2024',
+    detalhes: 'Data de Publicação dos Editais: 05/02/2025. Editais de convocação para contratação de serviços RH e Aquisição de Bens.',
+    editais: [
+        { nome: 'Edital Cotação Nº 001 (Serviços RH)', link: '#' },
+        { nome: 'Edital Cotação Nº 002 (Aquisição Bens)', link: '#' }
+    ]
+  },
+  { 
+    id: '962320', 
+    termo: 'TF 962320',
+    objeto: 'Futsal Social no Entorno e no Distrito Federal', 
+    valor: 'R$ 100.000,00', 
+    situacao: 'Em Execução', 
+    data: '05/08/2024',
+    detalhes: 'Data de Publicação dos Editais: 05/02/2025. Editais de convocação para contratação de serviços RH e Aquisição de Bens.',
+    editais: [
+        { nome: 'Edital Cotação Nº 001 (Serviços RH)', link: '#' },
+        { nome: 'Edital Cotação Nº 002 (Aquisição Bens)', link: '#' }
+    ]
+  },
+  { 
+    id: '955748', 
+    termo: 'TF 955748',
+    objeto: 'Circuito de Futebol no Entorno e no DF', 
+    valor: 'R$ 360.000,00', 
+    situacao: 'Em Análise', 
+    data: '30/12/2024',
+    detalhes: 'Proposta/Plano de Trabalho complementado enviada para Análise. Data Limite: 30/03/2026. Editais de 14/04/2025.',
+    editais: [
+        { nome: 'Edital Cotação Nº 001', link: '#' },
+        { nome: 'Edital Cotação Nº 002', link: '#' }
+    ]
+  },
+  { 
+    id: '948832', 
+    termo: 'TF 948832',
+    objeto: 'Candangão de Futsal 2024', 
+    valor: 'R$ 265.000,00', 
+    situacao: 'Aguardando Prestação', 
+    data: '06/12/2023',
+    detalhes: 'Aguardando Prestação de Contas (Ref: 04/02/2025).',
+    editais: []
+  },
+  { 
+    id: '941022', 
+    termo: 'TF 941022',
+    objeto: 'Brasileiro de Ligas de Futsal', 
+    valor: 'R$ 164.604,00', 
+    situacao: 'Complementação', 
+    data: '01/11/2023',
+    detalhes: 'Prestação de Contas em Complementação (Ref: 25/08/2024).',
+    editais: []
+  },
+  { 
+    id: '937328', 
+    termo: 'TF 937328',
+    objeto: 'Copa Candanga de Futsal DF', 
+    valor: 'R$ 318.955,00', 
+    situacao: 'Prestação Enviada', 
+    data: '30/12/2022',
+    detalhes: 'Prestação de Contas enviada para Análise.',
+    editais: []
+  },
+  { 
+    id: '898058', 
+    termo: 'TF 898058',
+    objeto: 'Brasileiro Sub 15 e Sub 17', 
+    valor: 'R$ 100.000,00', 
+    situacao: 'Complementação', 
+    data: '20/11/2020',
+    detalhes: 'Prestação de Contas em Complementação (Ref: 18/10/2024).',
+    editais: []
+  },
+  { 
+    id: '909934', 
+    termo: 'TF 909934',
+    objeto: 'Brasileiro de Ligas Masculino', 
+    valor: 'R$ 200.000,00', 
+    situacao: 'Complementação', 
+    data: '30/08/2021',
+    detalhes: 'Prestação de Contas em Complementação (Ref: 18/10/2024).',
+    editais: []
+  }
+];
 
+// --- MOCK DATA EXISTENTE ---
 const PLACARES = [
   { id: 1, timeA: 'Brasília Futsal', golsA: 4, timeB: 'AJJR Futsal', golsB: 2, status: 'ENCERRADO', liga: 'Série Ouro' },
   { id: 2, timeA: 'Cresspom', golsA: 1, timeB: 'Minas Brasília', golsB: 1, status: 'ENCERRADO', liga: 'Feminino' },
@@ -219,9 +332,9 @@ const Header = ({ theme, toggleTheme }) => {
                 ]}
               />
               <NavItem label="Notícias" href="#noticias" />
-              <NavItem label="Parceiros" href="#parceiros" />
+              <NavItem label="Sobre" href="#sobre" />
+              <NavItem label="Transparência" href="#transparencia" />
               <NavItem label="TV Candanga" href="#youtube" />
-              <NavItem label="Sobre" href="#footer" />
             </nav>
 
             {/* Actions */}
@@ -259,9 +372,9 @@ const Header = ({ theme, toggleTheme }) => {
           <MobileMenuItem label="Campeonatos (Tabela, Jogos)" />
           <MobileMenuItem label="Clubes Filiados" />
           <MobileMenuItem label="Notícias" />
-          <MobileMenuItem label="Patrocinadores" />
+          <MobileMenuItem label="Sobre Nós" href="#sobre" />
+          <MobileMenuItem label="Transparência" href="#transparencia" />
           <MobileMenuItem label="TV Candanga (Ao Vivo)" />
-          <MobileMenuItem label="Rádio Liga" />
           <MobileMenuItem label="Administração (Lídio)" />
         </nav>
         
@@ -320,8 +433,9 @@ const Hero = () => (
   <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 overflow-hidden">
     <div className="absolute inset-0 z-0">
       <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1936&auto=format&fit=crop" alt="Futsal background" className="w-full h-full object-cover object-center" />
-      {/* Overlay escuro mantido mesmo no modo claro para contraste do texto branco */}
+      {/* Máscara de gradiente ajustada para não ficar um bloco chapado */}
       <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent opacity-95 dark:opacity-90"></div>
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white dark:from-slate-950 to-transparent"></div>
     </div>
 
     <div className="container mx-auto px-4 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
@@ -365,8 +479,174 @@ const Hero = () => (
   </section>
 );
 
+// --- SEÇÃO SOBRE NÓS (Estilo Moderno com Recorte/Grid) ---
+const AboutSection = () => (
+  <section id="sobre" className="py-20 bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+    <div className="container mx-auto px-4">
+      <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <Reveal>
+          {/* Imagem com recorte moderno e tamanho controlado */}
+          <div className="relative group max-w-lg mx-auto lg:mx-0">
+            <div className="absolute inset-0 bg-brand-green rounded-[2rem] rotate-3 opacity-20 group-hover:rotate-6 transition-transform duration-500"></div>
+            <div className="relative h-64 sm:h-80 md:h-96 w-full rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white dark:border-slate-800">
+              <img 
+                src="https://images.unsplash.com/photo-1543351611-58f69d7c1781?q=80&w=1920&auto=format&fit=crop" 
+                alt="Sobre a Liga" 
+                className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" 
+              />
+              <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/90 to-transparent text-white">
+                <span className="block text-brand-yellow font-bold text-xs uppercase tracking-widest mb-1">Desde 06/03/2015</span>
+                <h3 className="text-2xl font-black leading-none">TRANSFORMANDO VIDAS</h3>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+        
+        <Reveal delay={200}>
+          <SectionTitle title="Sobre Nós" subtitle="Nossa História" />
+          <div className="space-y-6 text-slate-600 dark:text-slate-300 leading-relaxed text-lg">
+            <p>
+              No coração do esporte e da solidariedade, nossa entidade sem fins lucrativos é movida pelo desejo de transformar vidas. Promovemos projetos sociais e esportivos que vão além das quadras e campos, levando inclusão, educação e saúde para comunidades do Distrito Federal e entorno.
+            </p>
+            <p>
+              Acreditamos no poder do esporte como ferramenta de desenvolvimento humano e social. Nossos programas são projetados para oferecer oportunidades a crianças, jovens e adultos, criando ambientes onde valores como <strong className="text-brand-green">disciplina, trabalho em equipe e respeito</strong> florescem.
+            </p>
+            <div className="border-l-4 border-brand-yellow pl-6 py-2 bg-white dark:bg-slate-800/50 rounded-r-xl shadow-sm">
+              <p className="italic text-slate-800 dark:text-white font-medium text-base">
+                "Seja através de campeonatos esportivos, oficinas educativas ou ações solidárias, nosso objetivo é impactar positivamente a vida de cada participante."
+              </p>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </div>
+  </section>
+);
+
+// --- SEÇÃO TRANSPARÊNCIA INTERATIVA ---
+const TransparencySection = () => {
+  const [selectedProject, setSelectedProject] = useState(TRANSPARENCIA_DATA[0]);
+
+  return (
+    <section id="transparencia" className="py-20 bg-white dark:bg-slate-950 transition-colors duration-300">
+      <SectionSeparator color="green" />
+      <div className="container mx-auto px-4 mt-12">
+        <SectionTitle title="Transparência" subtitle="Projetos e Contas" />
+        
+        <div className="mb-8 p-6 bg-brand-green/5 border border-brand-green/20 rounded-2xl flex items-start gap-4">
+           <Info className="text-brand-green shrink-0 mt-1" />
+           <p className="text-sm text-slate-600 dark:text-slate-300">
+             Nosso compromisso com a transparência reflete nossa dedicação em aplicar os recursos de forma responsável e eficiente. Abaixo, selecione um Termo de Fomento para visualizar os detalhes, valores e editais disponíveis.
+           </p>
+        </div>
+
+        <div className="grid lg:grid-cols-12 gap-8 h-auto lg:h-[600px]">
+          {/* Lista Lateral (Scrollável) */}
+          <div className="lg:col-span-4 space-y-3 lg:overflow-y-auto pr-2 custom-scrollbar max-h-[400px] lg:max-h-full">
+            {TRANSPARENCIA_DATA.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setSelectedProject(item)}
+                className={`w-full text-left p-4 rounded-xl border transition-all duration-300 group ${
+                  selectedProject.id === item.id 
+                    ? 'bg-brand-green text-white border-brand-green shadow-lg shadow-green-900/20 translate-x-2' 
+                    : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-brand-green/50 hover:bg-white dark:hover:bg-slate-800'
+                }`}
+              >
+                <div className="flex justify-between items-start mb-2">
+                  <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded ${
+                    selectedProject.id === item.id ? 'bg-white/20 text-white' : 'bg-slate-200 dark:bg-slate-800 text-slate-500'
+                  }`}>
+                    {item.termo}
+                  </span>
+                  <span className={`text-[10px] font-bold ${
+                    selectedProject.id === item.id ? 'text-brand-yellow' : 'text-slate-400'
+                  }`}>
+                    {item.data}
+                  </span>
+                </div>
+                <h4 className={`font-bold text-sm leading-tight line-clamp-2 ${
+                  selectedProject.id === item.id ? 'text-white' : 'text-slate-800 dark:text-slate-200'
+                }`}>
+                  {item.objeto}
+                </h4>
+              </button>
+            ))}
+          </div>
+
+          {/* Painel de Detalhes (Fixo) */}
+          <div className="lg:col-span-8 h-full">
+            <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-xl h-full flex flex-col relative overflow-hidden">
+              {/* Decorative Icon Background */}
+              <div className="absolute -bottom-10 -right-10 opacity-5 pointer-events-none">
+                <FileText size={300} className="text-brand-green" />
+              </div>
+              
+              <div className="relative z-10 flex flex-col h-full">
+                <div className="inline-block self-start bg-brand-yellow text-slate-900 text-xs font-black px-3 py-1 rounded-full mb-4 uppercase tracking-wide shadow-sm">
+                  {selectedProject.situacao}
+                </div>
+                
+                <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
+                  {selectedProject.objeto}
+                </h3>
+                
+                <div className="grid sm:grid-cols-2 gap-6 mb-8">
+                  <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                    <span className="block text-xs text-slate-500 uppercase font-bold mb-2 flex items-center gap-1"><DollarSign size={14}/> Valor do Repasse</span>
+                    <span className="text-2xl font-black text-brand-green tracking-tight">{selectedProject.valor}</span>
+                  </div>
+                  <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                    <span className="block text-xs text-slate-500 uppercase font-bold mb-2 flex items-center gap-1"><FileText size={14}/> Termo Oficial</span>
+                    <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">{selectedProject.termo}</span>
+                  </div>
+                </div>
+
+                <div className="mb-auto">
+                  <h5 className="font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-3 text-sm uppercase tracking-wide">
+                    <CheckCircle size={16} className="text-brand-green" /> Detalhes & Status
+                  </h5>
+                  <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                    {selectedProject.detalhes} <br/>
+                    <span className="block mt-2 text-xs text-slate-400 font-bold uppercase">Data de Assinatura/Referência: {selectedProject.data}</span>
+                  </p>
+                </div>
+
+                {selectedProject.editais.length > 0 && (
+                  <div className="mt-6">
+                    <h5 className="font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-3 text-sm uppercase tracking-wide">
+                      <Download size={16} className="text-brand-yellow" /> Editais Disponíveis
+                    </h5>
+                    <div className="flex flex-wrap gap-3">
+                      {selectedProject.editais.map((edital, idx) => (
+                        <a 
+                          key={idx} 
+                          href={edital.link} 
+                          className="flex items-center gap-2 px-4 py-3 bg-white dark:bg-slate-800 hover:bg-brand-green hover:text-white text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-xs font-bold uppercase rounded-lg transition-all shadow-sm hover:shadow-md hover:-translate-y-1"
+                        >
+                          <FileText size={16} /> {edital.nome}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800">
+                   <a href="https://portal.plataformamaisbrasil.gov.br/maisbrasil-portal-frontend/" target="_blank" className="text-xs text-slate-500 hover:text-brand-green underline flex items-center gap-1 font-bold">
+                     Verificar no Portal Mais Brasil <ChevronRight size={12}/>
+                   </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Dashboard = () => {
-    const [activeTab, setActiveTab] = useState('jogos'); // jogos | videos
+    const [activeTab, setActiveTab] = useState('jogos');
 
     return (
     <section id="tabela" className="py-16 md:py-24 bg-white dark:bg-slate-950 relative transition-colors duration-300">
@@ -699,6 +979,13 @@ const App = () => {
         ::-webkit-scrollbar-thumb:hover {
           background: #009933;
         }
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #94a3b8;
+          border-radius: 3px;
+        }
       `}</style>
       
       <Header theme={theme} toggleTheme={toggleTheme} />
@@ -706,6 +993,8 @@ const App = () => {
       <main>
         <ScoreTicker />
         <Hero />
+        <AboutSection />
+        <TransparencySection />
         <Dashboard />
         <ClubsSection />
         <NewsSection />
