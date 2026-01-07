@@ -9,8 +9,21 @@ import {
 // A barra "/" refere-se à raiz da pasta public.
 const logoLiga = "/logoligasemfundo.png";
 
-// --- DADOS REAIS DE TRANSPARÊNCIA (Extraídos do seu texto) ---
+// --- DADOS REAIS DE TRANSPARÊNCIA ---
 const TRANSPARENCIA_DATA = [
+  { 
+    id: '955748', 
+    termo: 'TF 955748',
+    objeto: 'Circuito de Futebol no Entorno e no Distrito Federal', 
+    valor: 'R$ 360.000,00', 
+    situacao: 'Em Análise', 
+    data: '30/12/2024',
+    detalhes: 'Proposta/Plano de Trabalho complementado enviada para Análise. Data Limite p/ Prestação: 30/03/2026.',
+    editais: [
+      { nome: 'Edital Cotação Nº 001 (RH)', link: '#' },
+      { nome: 'Edital Cotação Nº 002 (Bens)', link: '#' }
+    ]
+  },
   { 
     id: '85/2025', 
     termo: 'TF 85/2025',
@@ -18,7 +31,7 @@ const TRANSPARENCIA_DATA = [
     valor: 'R$ 1.487.682,19', 
     situacao: 'Em Análise', 
     data: '05/02/2025',
-    detalhes: 'Prestação de Contas em Análise. Plano de Trabalho: TF 85/2025.',
+    detalhes: 'Prestação de Contas em Análise. Entidade: LIGA CANDANGA DE FUTSAL DO DISTRITO FEDERAL.',
     editais: []
   },
   { 
@@ -28,7 +41,7 @@ const TRANSPARENCIA_DATA = [
     valor: 'R$ 999.369,00', 
     situacao: 'Em Análise', 
     data: '05/02/2025',
-    detalhes: 'Prestação de Contas em Análise. Plano de Trabalho: TF 106/2024.',
+    detalhes: 'Prestação de Contas em Análise.',
     editais: []
   },
   { 
@@ -38,10 +51,10 @@ const TRANSPARENCIA_DATA = [
     valor: 'R$ 200.000,00', 
     situacao: 'Em Execução', 
     data: '05/08/2024',
-    detalhes: 'Data de Publicação dos Editais: 05/02/2025. Editais de convocação para contratação de serviços RH e Aquisição de Bens.',
+    detalhes: 'Data: 05/02/2025. Editais de convocação para contratação de serviços.',
     editais: [
-        { nome: 'Edital Cotação Nº 001 (Serviços RH)', link: '#' },
-        { nome: 'Edital Cotação Nº 002 (Aquisição Bens)', link: '#' }
+        { nome: 'Edital Cotação Nº 001', link: '#' },
+        { nome: 'Edital Cotação Nº 002', link: '#' }
     ]
   },
   { 
@@ -51,20 +64,7 @@ const TRANSPARENCIA_DATA = [
     valor: 'R$ 100.000,00', 
     situacao: 'Em Execução', 
     data: '05/08/2024',
-    detalhes: 'Data de Publicação dos Editais: 05/02/2025. Editais de convocação para contratação de serviços RH e Aquisição de Bens.',
-    editais: [
-        { nome: 'Edital Cotação Nº 001 (Serviços RH)', link: '#' },
-        { nome: 'Edital Cotação Nº 002 (Aquisição Bens)', link: '#' }
-    ]
-  },
-  { 
-    id: '955748', 
-    termo: 'TF 955748',
-    objeto: 'Circuito de Futebol no Entorno e no DF', 
-    valor: 'R$ 360.000,00', 
-    situacao: 'Em Análise', 
-    data: '30/12/2024',
-    detalhes: 'Proposta/Plano de Trabalho complementado enviada para Análise. Data Limite: 30/03/2026. Editais de 14/04/2025.',
+    detalhes: 'Editais de convocação para contratação de serviços RH e Aquisição de Bens.',
     editais: [
         { nome: 'Edital Cotação Nº 001', link: '#' },
         { nome: 'Edital Cotação Nº 002', link: '#' }
@@ -77,7 +77,17 @@ const TRANSPARENCIA_DATA = [
     valor: 'R$ 265.000,00', 
     situacao: 'Aguardando Prestação', 
     data: '06/12/2023',
-    detalhes: 'Aguardando Prestação de Contas (Ref: 04/02/2025).',
+    detalhes: 'Aguardando Prestação de Contas / 04/02/2025.',
+    editais: []
+  },
+  { 
+    id: '937328', 
+    termo: 'TF 937328',
+    objeto: 'Copa Candanga de Futsal', 
+    valor: 'R$ 318.955,00', 
+    situacao: 'Prestação Enviada', 
+    data: '30/12/2022',
+    detalhes: 'Prestação de Contas enviada para Análise.',
     editais: []
   },
   { 
@@ -88,16 +98,6 @@ const TRANSPARENCIA_DATA = [
     situacao: 'Complementação', 
     data: '01/11/2023',
     detalhes: 'Prestação de Contas em Complementação (Ref: 25/08/2024).',
-    editais: []
-  },
-  { 
-    id: '937328', 
-    termo: 'TF 937328',
-    objeto: 'Copa Candanga de Futsal DF', 
-    valor: 'R$ 318.955,00', 
-    situacao: 'Prestação Enviada', 
-    data: '30/12/2022',
-    detalhes: 'Prestação de Contas enviada para Análise.',
     editais: []
   },
   { 
@@ -123,6 +123,7 @@ const TRANSPARENCIA_DATA = [
 ];
 
 // --- MOCK DATA EXISTENTE ---
+
 const PLACARES = [
   { id: 1, timeA: 'Brasília Futsal', golsA: 4, timeB: 'AJJR Futsal', golsB: 2, status: 'ENCERRADO', liga: 'Série Ouro' },
   { id: 2, timeA: 'Cresspom', golsA: 1, timeB: 'Minas Brasília', golsB: 1, status: 'ENCERRADO', liga: 'Feminino' },
@@ -136,7 +137,8 @@ const NOTICIAS_DESTAQUE = [
     id: 1,
     titulo: "Brasília Futsal vence clássico e assume liderança isolada",
     categoria: "SÉRIE OURO",
-    imagem: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?q=80&w=1930&auto=format&fit=crop",
+    // Imagem Futsal: Jogadores em quadra
+    imagem: "/futsal.jpg",
     resumo: "Em jogo eletrizante no Ginásio do Cruzeiro, equipe da capital mostra força defensiva e garante vaga.",
     autor: "Redação LCF",
     data: "17 DEZ, 2025"
@@ -145,7 +147,8 @@ const NOTICIAS_DESTAQUE = [
     id: 2,
     titulo: "Revelação do Candanguinha 2024 renova contrato",
     categoria: "MERCADO",
-    imagem: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1936&auto=format&fit=crop",
+    // Imagem Futsal: Bola de futsal
+    imagem: "/futsal1.jpg",
     resumo: "Artilheiro do campeonato fica para a temporada 2026 visando o Brasileiro de Ligas.",
     autor: "Assessoria",
     data: "16 DEZ, 2025"
@@ -154,7 +157,8 @@ const NOTICIAS_DESTAQUE = [
     id: 3,
     titulo: "Guia da Rodada: Saiba onde assistir aos jogos decisivos",
     categoria: "SERVIÇO",
-    imagem: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1886&auto=format&fit=crop",
+    // Imagem Futsal: Quadra indoor
+    imagem: "/futsal7.jpg", // Adaptado conforme solicitado, usando a imagem disponível
     resumo: "Transmissões ao vivo pela TV Candanga no YouTube e Band.",
     autor: "Mídia LCF",
     data: "15 DEZ, 2025"
@@ -178,7 +182,7 @@ const CLUBES = [
 
 const PARCEIROS = [
   { id: 1, nome: "BAND", tipo: "Mídia Oficial", resumo: "Transmissão exclusiva dos jogos finais." },
-  { id: 2, nome: "BRB", tipo: "Patrocinador Master", resumo: "Banco de Brasília, apoiando o esporte local." },
+  { id: 2, nome: "DUALT", tipo: "Patrocinador Master", resumo: "BOLAS LICENCIADAS PARA OS MAIORES TIMES DO MUNDO" },
   { id: 3, nome: "Secretaria de Esportes", tipo: "Apoio Institucional", resumo: "Fomento ao esporte no Distrito Federal." },
   { id: 4, nome: "GDF", tipo: "Governo", resumo: "Governo do Distrito Federal." },
 ];
@@ -432,8 +436,9 @@ const ScoreTicker = () => (
 const Hero = () => (
   <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 overflow-hidden">
     <div className="absolute inset-0 z-0">
-      <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1936&auto=format&fit=crop" alt="Futsal background" className="w-full h-full object-cover object-center" />
-      {/* Máscara de gradiente ajustada para não ficar um bloco chapado */}
+      {/* Imagem de Futsal Substituída */}
+      <img src="./public/futsal2.jpg" alt="Futsal background" className="w-full h-full object-cover object-center" />
+      {/* Máscara de gradiente ajustada */}
       <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent opacity-95 dark:opacity-90"></div>
       <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white dark:from-slate-950 to-transparent"></div>
     </div>
@@ -466,7 +471,8 @@ const Hero = () => (
       <Reveal direction="left" delay={200} className="hidden lg:block relative">
          <div className="relative z-10 bg-slate-900/60 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-2xl animate-float">
             <div className="flex items-start gap-4 mb-4">
-               <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?q=80&w=1740&auto=format&fit=crop" className="w-24 h-24 rounded-lg object-cover border-2 border-brand-yellow" alt="Destaque"/>
+               {/* Imagem Card Futsal */}
+               <img src="./public/futsal2.jpg" className="w-24 h-24 rounded-lg object-cover border-2 border-brand-yellow" alt="Destaque"/>
                <div>
                  <span className="text-brand-yellow text-xs font-bold uppercase">Ao Vivo na Rádio</span>
                  <h3 className="text-white font-bold text-lg leading-tight mt-1">Sintonize na emoção do futsal!</h3>
@@ -489,8 +495,9 @@ const AboutSection = () => (
           <div className="relative group max-w-lg mx-auto lg:mx-0">
             <div className="absolute inset-0 bg-brand-green rounded-[2rem] rotate-3 opacity-20 group-hover:rotate-6 transition-transform duration-500"></div>
             <div className="relative h-64 sm:h-80 md:h-96 w-full rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white dark:border-slate-800">
+              {/* Imagem Sobre Nós Futsal */}
               <img 
-                src="https://images.unsplash.com/photo-1543351611-58f69d7c1781?q=80&w=1920&auto=format&fit=crop" 
+                src="./public/futsal4.jpg" 
                 alt="Sobre a Liga" 
                 className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" 
               />
@@ -765,7 +772,7 @@ const Dashboard = () => {
                     ) : (
                         <div className="space-y-4 animate-fade-in-down">
                             <div className="relative rounded-xl overflow-hidden group cursor-pointer">
-                                <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=1000&auto=format&fit=crop" className="w-full h-40 object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt="Resumo"/>
+                                <img src="./public/futsal7.jpg" className="w-full h-40 object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt="Resumo"/>
                                 <div className="absolute inset-0 flex items-center justify-center">
                                     <PlayCircle size={40} className="text-white drop-shadow-lg group-hover:scale-110 transition-transform" />
                                 </div>
