@@ -437,7 +437,7 @@ const Hero = () => (
   <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 overflow-hidden">
     <div className="absolute inset-0 z-0">
       {/* Imagem de Futsal Substituída */}
-      <img src="./public/futsal2.jpg" alt="Futsal background" className="w-full h-full object-cover object-center" />
+      <img src="/public/futsal2.jpg" alt="Futsal background" className="w-full h-full object-cover object-center" />
       {/* Máscara de gradiente ajustada */}
       <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent opacity-95 dark:opacity-90"></div>
       <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white dark:from-slate-950 to-transparent"></div>
