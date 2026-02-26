@@ -137,7 +137,6 @@ const NOTICIAS_DESTAQUE = [
     id: 1,
     titulo: "Brasília Futsal vence clássico e assume liderança isolada",
     categoria: "SÉRIE OURO",
-    // Imagem Futsal: Jogadores em quadra
     imagem: "/futsal.jpg",
     resumo: "Em jogo eletrizante no Ginásio do Cruzeiro, equipe da capital mostra força defensiva e garante vaga.",
     autor: "Redação LCF",
@@ -147,7 +146,6 @@ const NOTICIAS_DESTAQUE = [
     id: 2,
     titulo: "Revelação do Candanguinha 2024 renova contrato",
     categoria: "MERCADO",
-    // Imagem Futsal: Bola de futsal
     imagem: "/futsal1.jpg",
     resumo: "Artilheiro do campeonato fica para a temporada 2026 visando o Brasileiro de Ligas.",
     autor: "Assessoria",
@@ -157,8 +155,7 @@ const NOTICIAS_DESTAQUE = [
     id: 3,
     titulo: "Guia da Rodada: Saiba onde assistir aos jogos decisivos",
     categoria: "SERVIÇO",
-    // Imagem Futsal: Quadra indoor
-    imagem: "/futsal7.jpg", // Adaptado conforme solicitado, usando a imagem disponível
+    imagem: "/futsal7.jpg",
     resumo: "Transmissões ao vivo pela TV Candanga no YouTube e Band.",
     autor: "Mídia LCF",
     data: "15 DEZ, 2025"
@@ -437,7 +434,7 @@ const Hero = () => (
   <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 overflow-hidden">
     <div className="absolute inset-0 z-0">
       {/* Imagem de Futsal Substituída */}
-      <img src="/public/futsal2.jpg" alt="Futsal background" className="w-full h-full object-cover object-center" />
+      <img src="/futsal2.jpg" alt="Futsal background" className="w-full h-full object-cover object-center" />
       {/* Máscara de gradiente ajustada */}
       <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent opacity-95 dark:opacity-90"></div>
       <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white dark:from-slate-950 to-transparent"></div>
@@ -472,7 +469,7 @@ const Hero = () => (
          <div className="relative z-10 bg-slate-900/60 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-2xl animate-float">
             <div className="flex items-start gap-4 mb-4">
                {/* Imagem Card Futsal */}
-               <img src="./public/futsal2.jpg" className="w-24 h-24 rounded-lg object-cover border-2 border-brand-yellow" alt="Destaque"/>
+               <img src="/futsal2.jpg" className="w-24 h-24 rounded-lg object-cover border-2 border-brand-yellow" alt="Destaque"/>
                <div>
                  <span className="text-brand-yellow text-xs font-bold uppercase">Ao Vivo na Rádio</span>
                  <h3 className="text-white font-bold text-lg leading-tight mt-1">Sintonize na emoção do futsal!</h3>
@@ -497,7 +494,7 @@ const AboutSection = () => (
             <div className="relative h-64 sm:h-80 md:h-96 w-full rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white dark:border-slate-800">
               {/* Imagem Sobre Nós Futsal */}
               <img 
-                src="./public/futsal4.jpg" 
+                src="/futsal4.jpg" 
                 alt="Sobre a Liga" 
                 className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" 
               />
@@ -640,7 +637,7 @@ const TransparencySection = () => {
                 
                 <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800">
                    <a href="https://portal.plataformamaisbrasil.gov.br/maisbrasil-portal-frontend/" target="_blank" className="text-xs text-slate-500 hover:text-brand-green underline flex items-center gap-1 font-bold">
-                     Verificar no Portal Mais Brasil <ChevronRight size={12}/>
+                      Verificar no Portal Mais Brasil <ChevronRight size={12}/>
                    </a>
                 </div>
               </div>
@@ -772,7 +769,7 @@ const Dashboard = () => {
                     ) : (
                         <div className="space-y-4 animate-fade-in-down">
                             <div className="relative rounded-xl overflow-hidden group cursor-pointer">
-                                <img src="./public/futsal7.jpg" className="w-full h-40 object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt="Resumo"/>
+                                <img src="/futsal7.jpg" className="w-full h-40 object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt="Resumo"/>
                                 <div className="absolute inset-0 flex items-center justify-center">
                                     <PlayCircle size={40} className="text-white drop-shadow-lg group-hover:scale-110 transition-transform" />
                                 </div>
