@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { 
   Calendar, ChevronRight, Menu, Search, PlayCircle, Clock, 
   TrendingUp, Shield, MapPin, X, Instagram, Facebook, Twitter, 
@@ -162,7 +163,6 @@ const NOTICIAS_DESTAQUE = [
   }
 ];
 
-// Tabela calculada com base nos resultados fornecidos
 const TABELA = [
   { pos: 1, time: "Ad3", pts: 4, j: 2, v: 1, sg: 10, emblem: "AD3" },
   { pos: 2, time: "Gol de Placa", pts: 3, j: 1, v: 1, sg: 6, emblem: "GOL" },
@@ -171,7 +171,6 @@ const TABELA = [
   { pos: 5, time: "Ceilandense", pts: 1, j: 1, v: 0, sg: 0, emblem: "CEI" },
 ];
 
-// Perfil de todos os times mencionados
 const CLUBES = [
   { id: 1, nome: "Ad3", cidade: "Distrito Federal", historia: "Equipe com forte poder ofensivo e transição rápida, grande destaque ofensivo da temporada.", emblem: "AD3" },
   { id: 2, nome: "Gol de Placa", cidade: "Distrito Federal", historia: "Tradicional time focado na técnica refinada e no futsal arte que encanta a torcida.", emblem: "GOL" },
@@ -239,10 +238,29 @@ const Reveal = ({ children, className = "", delay = 0, direction = "up" }) => {
   );
 };
 
+// Componente para voltar ao topo ao trocar de página
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
 // --- SUB-COMPONENTS ---
 
-const NavItem = ({ label, href = "#", active, hasSubmenu, submenuItems }) => {
+const NavItem = ({ label, href, to, active, hasSubmenu, submenuItems }) => {
   const [isOpen, setIsOpen] = useState(false);
+  
+  const content = (
+    <>
+      {label}
+      {hasSubmenu && <ChevronDown size={14} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />}
+      {active && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-green shadow-[0_0_10px_rgba(0,153,51,0.8)]"></span>}
+    </>
+  );
+
+  const className = `flex items-center gap-1 px-3 py-2 text-sm font-bold uppercase tracking-wider transition-colors ${active ? 'text-brand-green' : 'text-slate-600 dark:text-slate-400 hover:text-brand-green dark:hover:text-brand-yellow'}`;
 
   return (
     <div 
@@ -250,21 +268,24 @@ const NavItem = ({ label, href = "#", active, hasSubmenu, submenuItems }) => {
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
-      <a 
-        href={href} 
-        className={`flex items-center gap-1 px-3 py-2 text-sm font-bold uppercase tracking-wider transition-colors ${active ? 'text-brand-green' : 'text-slate-600 dark:text-slate-400 hover:text-brand-green dark:hover:text-brand-yellow'}`}
-      >
-        {label}
-        {hasSubmenu && <ChevronDown size={14} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />}
-        {active && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-green shadow-[0_0_10px_rgba(0,153,51,0.8)]"></span>}
-      </a>
+      {to ? (
+        <Link to={to} className={className}>{content}</Link>
+      ) : (
+        <a href={href} className={className}>{content}</a>
+      )}
       
       {hasSubmenu && isOpen && (
         <div className="absolute top-full left-0 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xl py-2 min-w-[180px] flex flex-col z-50 animate-fade-in-down">
           {submenuItems.map((item, idx) => (
-             <a key={idx} href={item.href} className="px-4 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-brand-green transition-colors border-b border-transparent hover:border-l-4 hover:border-l-brand-green">
-               {item.label}
-             </a>
+             item.to ? (
+               <Link key={idx} to={item.to} className="px-4 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-brand-green transition-colors border-b border-transparent hover:border-l-4 hover:border-l-brand-green">
+                 {item.label}
+               </Link>
+             ) : (
+               <a key={idx} href={item.href} className="px-4 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-brand-green transition-colors border-b border-transparent hover:border-l-4 hover:border-l-brand-green">
+                 {item.label}
+               </a>
+             )
           ))}
         </div>
       )}
@@ -272,11 +293,13 @@ const NavItem = ({ label, href = "#", active, hasSubmenu, submenuItems }) => {
   );
 };
 
-const MobileMenuItem = ({ label, href = "#" }) => (
-  <a href={href} className="block py-4 text-lg font-bold text-slate-800 dark:text-slate-200 border-b border-slate-200 dark:border-slate-800 hover:text-brand-green hover:pl-2 transition-all">
-    {label}
-  </a>
-);
+const MobileMenuItem = ({ label, href, to, onClick }) => {
+  const className = "block py-4 text-lg font-bold text-slate-800 dark:text-slate-200 border-b border-slate-200 dark:border-slate-800 hover:text-brand-green hover:pl-2 transition-all";
+  if (to) {
+    return <Link to={to} onClick={onClick} className={className}>{label}</Link>;
+  }
+  return <a href={href} onClick={onClick} className={className}>{label}</a>;
+};
 
 const SectionTitle = ({ title, subtitle }) => (
   <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-l-4 border-brand-green pl-4">
@@ -294,11 +317,12 @@ const SectionSeparator = ({ color = "green" }) => (
   <div className={`h-2 w-full bg-gradient-to-r ${color === "green" ? "from-brand-green via-emerald-600 to-slate-200 dark:to-slate-900" : "from-brand-yellow via-orange-500 to-slate-200 dark:to-slate-900"}`}></div>
 );
 
-// --- MAIN COMPONENTS ---
+// --- HEADER & FOOTER (Globais) ---
 
 const Header = ({ theme, toggleTheme }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -313,7 +337,7 @@ const Header = ({ theme, toggleTheme }) => {
           <div className="flex items-center justify-between">
             
             {/* Logo Area */}
-            <div className="flex items-center gap-3 group cursor-pointer z-50">
+            <Link to="/" className="flex items-center gap-3 group cursor-pointer z-50">
               <div className="relative w-12 h-12 md:w-16 md:h-16 flex items-center justify-center bg-white/5 rounded-full backdrop-blur-sm p-1 border border-white/10 shadow-lg group-hover:scale-105 transition-transform">
                  <img src={logoLiga} alt="Logo Liga Candanga" className="w-full h-full object-contain" />
               </div>
@@ -323,25 +347,25 @@ const Header = ({ theme, toggleTheme }) => {
                 </h1>
                 <span className={`text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase ${isScrolled ? 'text-slate-500 dark:text-slate-400' : 'text-slate-300'}`}>Distrito Federal</span>
               </div>
-            </div>
+            </Link>
 
             {/* Desktop Nav */}
             <nav className="hidden lg:flex items-center gap-1 bg-white/80 dark:bg-slate-900/80 px-4 py-1.5 rounded-full border border-slate-200 dark:border-white/10 backdrop-blur-md shadow-lg">
-              <NavItem label="Início" href="#" active />
+              <NavItem label="Início" to="/" active={location.pathname === '/'} />
               <NavItem 
                 label="Campeonatos" 
-                href="#campeonatos"
+                href="/#campeonatos"
                 hasSubmenu 
                 submenuItems={[
-                  { label: 'Tabela de Classificação', href: '#tabela' },
-                  { label: 'Clubes Filiados', href: '#clubes' },
-                  { label: 'Agenda de Jogos', href: '#agenda' }
+                  { label: 'Tabela de Classificação', href: '/#tabela' },
+                  { label: 'Clubes Filiados', href: '/#clubes' },
+                  { label: 'Agenda de Jogos', href: '/#agenda' }
                 ]}
               />
-              <NavItem label="Notícias" href="#noticias" />
-              <NavItem label="Sobre" href="#sobre" />
-              <NavItem label="Transparência" href="#transparencia" />
-              <NavItem label="TV Candanga" href="#youtube" />
+              <NavItem label="Notícias" href="/#noticias" />
+              <NavItem label="Sobre" href="/#sobre" />
+              <NavItem label="Transparência" to="/transparencia" active={location.pathname === '/transparencia'} />
+              <NavItem label="TV Candanga" href="/#youtube" />
             </nav>
 
             {/* Actions */}
@@ -355,8 +379,8 @@ const Header = ({ theme, toggleTheme }) => {
               </button>
 
               <div className="hidden md:flex gap-2">
-                 <a href="https://www.youtube.com" target="_blank" className={`p-2 transition-colors ${isScrolled ? 'text-slate-500 hover:text-red-600' : 'text-slate-300 hover:text-white'}`}><Youtube size={20}/></a>
-                 <a href="https://www.instagram.com" target="_blank" className={`p-2 transition-colors ${isScrolled ? 'text-slate-500 hover:text-pink-600' : 'text-slate-300 hover:text-white'}`}><Instagram size={20}/></a>
+                 <a href="https://www.youtube.com" target="_blank" rel="noreferrer" className={`p-2 transition-colors ${isScrolled ? 'text-slate-500 hover:text-red-600' : 'text-slate-300 hover:text-white'}`}><Youtube size={20}/></a>
+                 <a href="https://www.instagram.com" target="_blank" rel="noreferrer" className={`p-2 transition-colors ${isScrolled ? 'text-slate-500 hover:text-pink-600' : 'text-slate-300 hover:text-white'}`}><Instagram size={20}/></a>
               </div>
 
               {/* Mobile Toggle */}
@@ -375,14 +399,13 @@ const Header = ({ theme, toggleTheme }) => {
       {/* Mobile Menu Overlay */}
       <div className={`fixed inset-0 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl z-40 transition-transform duration-300 lg:hidden flex flex-col pt-24 px-6 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <nav className="flex flex-col gap-2 overflow-y-auto max-h-[70vh]">
-          <MobileMenuItem label="Início" />
-          <MobileMenuItem label="Campeonatos (Tabela, Jogos)" />
-          <MobileMenuItem label="Clubes Filiados" />
-          <MobileMenuItem label="Notícias" />
-          <MobileMenuItem label="Sobre Nós" href="#sobre" />
-          <MobileMenuItem label="Transparência" href="#transparencia" />
-          <MobileMenuItem label="TV Candanga (Ao Vivo)" />
-          <MobileMenuItem label="Administração (Lídio)" />
+          <MobileMenuItem label="Início" to="/" onClick={() => setIsMenuOpen(false)} />
+          <MobileMenuItem label="Campeonatos (Tabela, Jogos)" href="/#tabela" onClick={() => setIsMenuOpen(false)} />
+          <MobileMenuItem label="Clubes Filiados" href="/#clubes" onClick={() => setIsMenuOpen(false)} />
+          <MobileMenuItem label="Notícias" href="/#noticias" onClick={() => setIsMenuOpen(false)} />
+          <MobileMenuItem label="Sobre Nós" href="/#sobre" onClick={() => setIsMenuOpen(false)} />
+          <MobileMenuItem label="Transparência" to="/transparencia" onClick={() => setIsMenuOpen(false)} />
+          <MobileMenuItem label="TV Candanga (Ao Vivo)" href="/#youtube" onClick={() => setIsMenuOpen(false)} />
         </nav>
         
         <div className="mt-auto pb-8 pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-4">
@@ -403,6 +426,67 @@ const Header = ({ theme, toggleTheme }) => {
     </>
   );
 };
+
+const Footer = () => (
+  <footer id="footer" className="bg-slate-950 text-slate-400 pt-16 pb-8 border-t-4 border-brand-green relative">
+    <div className="container mx-auto px-4">
+      <div className="grid md:grid-cols-4 gap-12 mb-12">
+        {/* Brand */}
+        <div className="col-span-1 md:col-span-2">
+          <div className="flex items-center gap-2 mb-6">
+             <div className="w-12 h-12 bg-white rounded flex items-center justify-center p-1">
+               <img src={logoLiga} alt="Logo Liga Candanga" className="w-full h-full object-contain" />
+             </div>
+             <div className="leading-tight">
+               <h4 className="font-black text-white text-xl">LIGA CANDANGA</h4>
+               <span className="text-[10px] uppercase tracking-widest text-brand-yellow">Futsal DF</span>
+             </div>
+          </div>
+          <p className="text-sm leading-relaxed mb-6 max-w-sm">
+            Fomentando o futsal no Distrito Federal, proporcionando desenvolvimento técnico e social através de competições de alto nível. O futuro do futsal começa aqui.
+          </p>
+          <div className="flex gap-4">
+             <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-brand-green hover:text-white transition-all"><Instagram size={18}/></a>
+             <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-red-600 hover:text-white transition-all"><Youtube size={18}/></a>
+             <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-blue-500 hover:text-white transition-all"><Radio size={18}/></a>
+          </div>
+        </div>
+
+        {/* Links */}
+        <div>
+          <h5 className="text-white font-bold uppercase tracking-wider text-xs mb-6">Navegação</h5>
+          <ul className="space-y-3 text-sm">
+            <li><Link to="/" className="hover:text-brand-green transition-colors">Início</Link></li>
+            <li><a href="/#tabela" className="hover:text-brand-green transition-colors">Tabela</a></li>
+            <li><a href="/#clubes" className="hover:text-brand-green transition-colors">Clubes</a></li>
+            <li><Link to="/transparencia" className="hover:text-brand-green transition-colors">Transparência</Link></li>
+            <li><a href="/#noticias" className="hover:text-brand-green transition-colors">Notícias</a></li>
+          </ul>
+        </div>
+
+        {/* Newsletter */}
+        <div>
+          <h5 className="text-white font-bold uppercase tracking-wider text-xs mb-6">Newsletter</h5>
+          <p className="text-xs mb-4">Receba notícias e resultados no seu e-mail.</p>
+          <form className="flex flex-col gap-2">
+             <input type="email" placeholder="Seu melhor e-mail" className="bg-slate-900 border border-slate-800 text-white text-sm px-4 py-3 rounded focus:outline-none focus:border-brand-green transition-colors" />
+             <button type="button" className="bg-brand-green hover:bg-green-600 text-white font-bold py-3 rounded text-sm uppercase transition-colors">
+               Inscrever-se
+             </button>
+          </form>
+        </div>
+      </div>
+
+      <div className="border-t border-slate-900 pt-8 flex flex-col md:flex-row justify-between items-center text-xs gap-4">
+        <p>&copy; 2025 Liga Candanga de Futsal. Todos os direitos reservados.</p>
+        <div className="flex items-center gap-6">
+          <a href="#" className="hover:text-white flex items-center gap-1 text-brand-yellow font-bold"><Lock size={12}/> Administração (Lídio)</a>
+          <a href="#" className="hover:text-white">Termos de Uso</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+);
 
 const ScoreTicker = () => (
   <div className="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 overflow-hidden whitespace-nowrap pt-[80px] md:pt-[100px] pb-2 relative z-30">
@@ -435,6 +519,8 @@ const ScoreTicker = () => (
     </div>
   </div>
 );
+
+// --- COMPONENTES DA PÁGINA INICIAL ---
 
 const Hero = () => (
   <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 overflow-hidden">
@@ -526,156 +612,6 @@ const AboutSection = () => (
   </section>
 );
 
-const TransparencySection = () => {
-  const [selectedProject, setSelectedProject] = useState(TRANSPARENCIA_DATA[0]);
-  const [isExpanded, setIsExpanded] = useState(false); // NOVO ESTADO AQUI
-
-  return (
-    <section id="transparencia" className="py-20 bg-white dark:bg-slate-950 transition-colors duration-300">
-      <SectionSeparator color="green" />
-      <div className="container mx-auto px-4 mt-12">
-        <SectionTitle title="Transparência" subtitle="Projetos e Contas" />
-        
-        <div className="mb-8 p-6 bg-brand-green/5 border border-brand-green/20 rounded-2xl flex items-start gap-4">
-           <Info className="text-brand-green shrink-0 mt-1" />
-           <p className="text-sm text-slate-600 dark:text-slate-300">
-             Nosso compromisso com a transparência reflete nossa dedicação em aplicar os recursos de forma responsável e eficiente. Os dados detalhados estão disponíveis no painel oficial abaixo.
-           </p>
-        </div>
-
-        {/* CONTÊINER COM O EFEITO DE OCULTAR / MÁSCARA */}
-        <div className="relative">
-          <div className={`transition-all duration-700 overflow-hidden ${isExpanded ? 'max-h-[2500px]' : 'max-h-[300px]'}`}>
-            <div className="grid lg:grid-cols-12 gap-8 h-auto lg:h-[600px]">
-              {/* Lista Lateral (Scrollável) */}
-              <div className="lg:col-span-4 space-y-3 lg:overflow-y-auto pr-2 custom-scrollbar max-h-[400px] lg:max-h-full">
-                {TRANSPARENCIA_DATA.map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => setSelectedProject(item)}
-                    className={`w-full text-left p-4 rounded-xl border transition-all duration-300 group ${
-                      selectedProject.id === item.id 
-                        ? 'bg-brand-green text-white border-brand-green shadow-lg shadow-green-900/20 translate-x-2' 
-                        : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-brand-green/50 hover:bg-white dark:hover:bg-slate-800'
-                    }`}
-                  >
-                    <div className="flex justify-between items-start mb-2">
-                      <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded ${
-                        selectedProject.id === item.id ? 'bg-white/20 text-white' : 'bg-slate-200 dark:bg-slate-800 text-slate-500'
-                      }`}>
-                        {item.termo}
-                      </span>
-                      <span className={`text-[10px] font-bold ${
-                        selectedProject.id === item.id ? 'text-brand-yellow' : 'text-slate-400'
-                      }`}>
-                        {item.data}
-                      </span>
-                    </div>
-                    <h4 className={`font-bold text-sm leading-tight line-clamp-2 ${
-                      selectedProject.id === item.id ? 'text-white' : 'text-slate-800 dark:text-slate-200'
-                    }`}>
-                      {item.objeto}
-                    </h4>
-                  </button>
-                ))}
-              </div>
-
-              {/* Painel de Detalhes (Fixo) */}
-              <div className="lg:col-span-8 h-full">
-                <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-xl h-full flex flex-col relative overflow-hidden">
-                  <div className="absolute -bottom-10 -right-10 opacity-5 pointer-events-none">
-                    <FileText size={300} className="text-brand-green" />
-                  </div>
-                  
-                  <div className="relative z-10 flex flex-col h-full">
-                    <div className="inline-block self-start bg-brand-yellow text-slate-900 text-xs font-black px-3 py-1 rounded-full mb-4 uppercase tracking-wide shadow-sm">
-                      {selectedProject.situacao}
-                    </div>
-                    
-                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
-                      {selectedProject.objeto}
-                    </h3>
-                    
-                    <div className="grid sm:grid-cols-2 gap-6 mb-8">
-                      <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <span className="block text-xs text-slate-500 uppercase font-bold mb-2 flex items-center gap-1"><DollarSign size={14}/> Valor do Repasse</span>
-                        <span className="text-2xl font-black text-brand-green tracking-tight">{selectedProject.valor}</span>
-                      </div>
-                      <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <span className="block text-xs text-slate-500 uppercase font-bold mb-2 flex items-center gap-1"><FileText size={14}/> Termo Oficial</span>
-                        <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">{selectedProject.termo}</span>
-                      </div>
-                    </div>
-
-                    <div className="mb-auto">
-                      <h5 className="font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-3 text-sm uppercase tracking-wide">
-                        <CheckCircle size={16} className="text-brand-green" /> Detalhes & Status
-                      </h5>
-                      <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                        {selectedProject.detalhes} <br/>
-                        <span className="block mt-2 text-xs text-slate-400 font-bold uppercase">Data de Assinatura/Referência: {selectedProject.data}</span>
-                      </p>
-                    </div>
-
-                    {selectedProject.editais.length > 0 && (
-                      <div className="mt-6">
-                        <h5 className="font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-3 text-sm uppercase tracking-wide">
-                          <Download size={16} className="text-brand-yellow" /> Editais Disponíveis
-                        </h5>
-                        <div className="flex flex-wrap gap-3">
-                          {selectedProject.editais.map((edital, idx) => (
-                            <a 
-                              key={idx} 
-                              href={edital.link} 
-                              className="flex items-center gap-2 px-4 py-3 bg-white dark:bg-slate-800 hover:bg-brand-green hover:text-white text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-xs font-bold uppercase rounded-lg transition-all shadow-sm hover:shadow-md hover:-translate-y-1"
-                            >
-                              <FileText size={16} /> {edital.nome}
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    
-                    <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800">
-                       <a href="https://portal.plataformamaisbrasil.gov.br/maisbrasil-portal-frontend/" target="_blank" className="text-xs text-slate-500 hover:text-brand-green underline flex items-center gap-1 font-bold">
-                          Verificar no Portal Mais Brasil <ChevronRight size={12}/>
-                       </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* OVERLAY DE MÁSCARA E BOTÃO "VER MAIS" */}
-          {!isExpanded && (
-            <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-white via-white/90 dark:from-slate-950 dark:via-slate-950/90 to-transparent flex items-end justify-center pb-4 z-20">
-              <button 
-                onClick={() => setIsExpanded(true)}
-                className="bg-brand-green hover:bg-green-600 text-white px-8 py-4 rounded-full font-black uppercase tracking-wide shadow-lg shadow-green-900/20 hover:-translate-y-1 transition-all flex items-center gap-2"
-              >
-                <Lock size={18} /> Acessar Portal Completo
-              </button>
-            </div>
-          )}
-
-          {/* BOTÃO PARA FECHAR DEPOIS DE ABERTO */}
-          {isExpanded && (
-            <div className="flex justify-center mt-6">
-              <button 
-                onClick={() => setIsExpanded(false)}
-                className="text-slate-500 hover:text-brand-green text-xs font-bold uppercase flex items-center gap-1 transition-colors bg-slate-100 dark:bg-slate-900 px-4 py-2 rounded-full"
-              >
-                <ChevronDown size={14} className="rotate-180" /> Ocultar Portal de Transparência
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-    </section>
-  );
-};
-
 const Dashboard = () => {
     const [activeTab, setActiveTab] = useState('jogos');
 
@@ -686,8 +622,6 @@ const Dashboard = () => {
         <SectionTitle title="Campeonatos" subtitle="Tabela & Jogos" />
 
         <div className="grid lg:grid-cols-3 gap-8">
-            
-            {/* Tabela Principal */}
             <Reveal className="lg:col-span-2">
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl overflow-hidden relative">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-green to-brand-yellow"></div>
@@ -750,7 +684,6 @@ const Dashboard = () => {
             </div>
             </Reveal>
 
-            {/* Sidebar / Agenda */}
             <Reveal delay={200} className="flex flex-col gap-6">
                 <div id="agenda" className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-lg relative overflow-hidden">
                     <div className="flex items-center justify-between mb-6">
@@ -787,7 +720,6 @@ const Dashboard = () => {
                                 </div>
                                 </div>
                             </div>
-
                             <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 border-l-2 border-l-brand-green hover:border-brand-green transition-all cursor-pointer">
                                 <div className="flex flex-col items-center min-w-[3rem] border-r border-slate-200 dark:border-slate-700 pr-3 mr-3">
                                 <span className="text-[10px] font-bold text-slate-400 uppercase">DEZ</span>
@@ -804,24 +736,6 @@ const Dashboard = () => {
                                 </div>
                                 </div>
                             </div>
-
-                            <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 border-l-2 border-l-brand-green hover:border-brand-green transition-all cursor-pointer">
-                                <div className="flex flex-col items-center min-w-[3rem] border-r border-slate-200 dark:border-slate-700 pr-3 mr-3">
-                                <span className="text-[10px] font-bold text-slate-400 uppercase">DEZ</span>
-                                <span className="text-xl font-black text-slate-800 dark:text-white">20</span>
-                                </div>
-                                <div className="flex-1">
-                                <div className="flex justify-between items-center mb-1">
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Trovão</span>
-                                    <span className="text-[10px] bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-300">21:15</span>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Gol de Placa</span>
-                                    <span className="text-[10px] text-brand-green font-bold">Arena DF</span>
-                                </div>
-                                </div>
-                            </div>
-                            
                             <button className="w-full mt-4 text-xs font-bold text-slate-500 hover:text-brand-green transition-colors uppercase tracking-wide">
                                 Ver calendário completo
                             </button>
@@ -942,66 +856,146 @@ const PartnersSection = () => (
   </section>
 );
 
-const Footer = () => (
-  <footer id="footer" className="bg-slate-950 text-slate-400 pt-16 pb-8 border-t-4 border-brand-green relative">
-    <div className="container mx-auto px-4">
-      <div className="grid md:grid-cols-4 gap-12 mb-12">
+// --- PÁGINA ESPECÍFICA DE TRANSPARÊNCIA ---
+
+const TransparencyPage = () => {
+  const [selectedProject, setSelectedProject] = useState(TRANSPARENCIA_DATA[0]);
+
+  return (
+    <div className="pt-24 pb-20 bg-white dark:bg-slate-950 min-h-screen">
+      <div className="container mx-auto px-4 mt-8">
         
-        {/* Brand */}
-        <div className="col-span-1 md:col-span-2">
-          <div className="flex items-center gap-2 mb-6">
-             <div className="w-12 h-12 bg-white rounded flex items-center justify-center p-1">
-               <img src={logoLiga} alt="Logo Liga Candanga" className="w-full h-full object-contain" />
-             </div>
-             <div className="leading-tight">
-               <h4 className="font-black text-white text-xl">LIGA CANDANGA</h4>
-               <span className="text-[10px] uppercase tracking-widest text-brand-yellow">Futsal DF</span>
-             </div>
-          </div>
-          <p className="text-sm leading-relaxed mb-6 max-w-sm">
-            Fomentando o futsal no Distrito Federal, proporcionando desenvolvimento técnico e social através de competições de alto nível. O futuro do futsal começa aqui.
+        {/* Cabeçalho exclusivo da página */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 text-brand-green border border-brand-green/20 text-xs font-black uppercase tracking-widest mb-4">
+            <Shield size={14} /> Portal Oficial
+          </span>
+          <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white uppercase leading-none tracking-tight mb-4">
+            Portal de <span className="text-brand-green">Transparência</span>
+          </h1>
+          <p className="text-slate-600 dark:text-slate-400 text-lg">
+             Acompanhe detalhadamente a destinação e execução dos recursos dos projetos geridos pela Liga Candanga.
           </p>
-          <div className="flex gap-4">
-             <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-brand-green hover:text-white transition-all" title="Instagram"><Instagram size={18}/></a>
-             <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-red-600 hover:text-white transition-all" title="YouTube"><Youtube size={18}/></a>
-             <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-blue-500 hover:text-white transition-all" title="Rádio Liga"><Radio size={18}/></a>
+        </div>
+
+        <div className="grid lg:grid-cols-12 gap-8 lg:h-[700px]">
+          {/* Lista Lateral */}
+          <div className="lg:col-span-4 space-y-3 lg:overflow-y-auto pr-2 custom-scrollbar max-h-[500px] lg:max-h-full">
+            {TRANSPARENCIA_DATA.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setSelectedProject(item)}
+                className={`w-full text-left p-4 rounded-xl border transition-all duration-300 group ${
+                  selectedProject.id === item.id 
+                    ? 'bg-brand-green text-white border-brand-green shadow-lg shadow-green-900/20 translate-x-2' 
+                    : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-brand-green/50 hover:bg-white dark:hover:bg-slate-800'
+                }`}
+              >
+                <div className="flex justify-between items-start mb-2">
+                  <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded ${
+                    selectedProject.id === item.id ? 'bg-white/20 text-white' : 'bg-slate-200 dark:bg-slate-800 text-slate-500'
+                  }`}>
+                    {item.termo}
+                  </span>
+                  <span className={`text-[10px] font-bold ${
+                    selectedProject.id === item.id ? 'text-brand-yellow' : 'text-slate-400'
+                  }`}>
+                    {item.data}
+                  </span>
+                </div>
+                <h4 className={`font-bold text-sm leading-tight line-clamp-2 ${
+                  selectedProject.id === item.id ? 'text-white' : 'text-slate-800 dark:text-slate-200'
+                }`}>
+                  {item.objeto}
+                </h4>
+              </button>
+            ))}
           </div>
-        </div>
 
-        {/* Links */}
-        <div>
-          <h5 className="text-white font-bold uppercase tracking-wider text-xs mb-6">Navegação</h5>
-          <ul className="space-y-3 text-sm">
-            <li><a href="#" className="hover:text-brand-green transition-colors">Tabela</a></li>
-            <li><a href="#" className="hover:text-brand-green transition-colors">Clubes</a></li>
-            <li><a href="#" className="hover:text-brand-green transition-colors">Notícias</a></li>
-            <li><a href="#" className="hover:text-brand-green transition-colors">TV Candanga</a></li>
-            <li><a href="#" className="hover:text-brand-green transition-colors">Contato</a></li>
-          </ul>
-        </div>
+          {/* Painel de Detalhes Principal */}
+          <div className="lg:col-span-8 h-full">
+            <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-xl h-full flex flex-col relative overflow-hidden">
+              <div className="absolute -bottom-10 -right-10 opacity-5 pointer-events-none">
+                <FileText size={300} className="text-brand-green" />
+              </div>
+              
+              <div className="relative z-10 flex flex-col h-full">
+                <div className="inline-block self-start bg-brand-yellow text-slate-900 text-xs font-black px-3 py-1 rounded-full mb-4 uppercase tracking-wide shadow-sm">
+                  {selectedProject.situacao}
+                </div>
+                
+                <h3 className="text-2xl md:text-4xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
+                  {selectedProject.objeto}
+                </h3>
+                
+                <div className="grid sm:grid-cols-2 gap-6 mb-8">
+                  <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                    <span className="block text-xs text-slate-500 uppercase font-bold mb-2 flex items-center gap-1"><DollarSign size={14}/> Valor do Repasse</span>
+                    <span className="text-3xl font-black text-brand-green tracking-tight">{selectedProject.valor}</span>
+                  </div>
+                  <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                    <span className="block text-xs text-slate-500 uppercase font-bold mb-2 flex items-center gap-1"><FileText size={14}/> Termo Oficial</span>
+                    <span className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">{selectedProject.termo}</span>
+                  </div>
+                </div>
 
-        {/* Newsletter */}
-        <div>
-          <h5 className="text-white font-bold uppercase tracking-wider text-xs mb-6">Newsletter</h5>
-          <p className="text-xs mb-4">Receba notícias e resultados no seu e-mail.</p>
-          <form className="flex flex-col gap-2">
-             <input type="email" placeholder="Seu melhor e-mail" className="bg-slate-900 border border-slate-800 text-white text-sm px-4 py-3 rounded focus:outline-none focus:border-brand-green transition-colors" />
-             <button className="bg-brand-green hover:bg-green-600 text-white font-bold py-3 rounded text-sm uppercase transition-colors">
-               Inscrever-se
-             </button>
-          </form>
-        </div>
-      </div>
+                <div className="mb-auto">
+                  <h5 className="font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-3 text-sm uppercase tracking-wide">
+                    <CheckCircle size={16} className="text-brand-green" /> Detalhes & Status
+                  </h5>
+                  <p className="text-slate-600 dark:text-slate-400 text-base leading-relaxed bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                    {selectedProject.detalhes} <br/>
+                    <span className="block mt-4 text-xs text-slate-400 font-bold uppercase">Data de Assinatura/Referência: {selectedProject.data}</span>
+                  </p>
+                </div>
 
-      <div className="border-t border-slate-900 pt-8 flex flex-col md:flex-row justify-between items-center text-xs gap-4">
-        <p>&copy; 2025 Liga Candanga de Futsal. Todos os direitos reservados.</p>
-        <div className="flex items-center gap-6">
-          <a href="#" className="hover:text-white flex items-center gap-1 text-brand-yellow font-bold"><Lock size={12}/> Administração (Lídio)</a>
-          <a href="#" className="hover:text-white">Termos de Uso</a>
+                {selectedProject.editais.length > 0 && (
+                  <div className="mt-6">
+                    <h5 className="font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-3 text-sm uppercase tracking-wide">
+                      <Download size={16} className="text-brand-yellow" /> Editais Disponíveis
+                    </h5>
+                    <div className="flex flex-wrap gap-3">
+                      {selectedProject.editais.map((edital, idx) => (
+                        <a 
+                          key={idx} 
+                          href={edital.link} 
+                          className="flex items-center gap-2 px-5 py-3 bg-white dark:bg-slate-800 hover:bg-brand-green hover:text-white text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-sm font-bold uppercase rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-1"
+                        >
+                          <FileText size={18} /> {edital.nome}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                   <a href="https://portal.plataformamaisbrasil.gov.br/maisbrasil-portal-frontend/" target="_blank" rel="noreferrer" className="text-sm text-slate-500 hover:text-brand-green underline flex items-center gap-1 font-bold">
+                      Verificar no Portal Mais Brasil <ChevronRight size={14}/>
+                   </a>
+                   <Link to="/" className="text-sm font-bold text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1 transition-colors">
+                      Voltar ao Início
+                   </Link>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </footer>
+  );
+};
+
+// --- ESTRUTURA DE PÁGINAS ---
+
+const HomePage = () => (
+  <>
+    <Hero />
+    <AboutSection />
+    <Dashboard />
+    <ClubsSection />
+    <NewsSection />
+    <PartnersSection />
+  </>
 );
 
 // --- APP ROOT ---
@@ -1010,63 +1004,63 @@ const App = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 font-sans ${theme === 'dark' ? 'dark' : ''}`}>
-      <style>{`
-        /* CSS Customizado para animações e scrollbar */
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-marquee {
-          animation: marquee 40s linear infinite;
-        }
-        .animate-fade-in-down {
-            animation: fadeInDown 0.2s ease-out forwards;
-        }
-        .hover\\:pause:hover {
-          animation-play-state: paused;
-        }
-        ::-webkit-scrollbar {
-          width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-          background: ${theme === 'dark' ? '#0f172a' : '#f1f5f9'};
-        }
-        ::-webkit-scrollbar-thumb {
-          background: ${theme === 'dark' ? '#334155' : '#cbd5e1'};
-          border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-          background: #009933;
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #94a3b8;
-          border-radius: 3px;
-        }
-      `}</style>
-      
-      <Header theme={theme} toggleTheme={toggleTheme} />
-      
-      <main>
-        <ScoreTicker />
-        <Hero />
-        <AboutSection />
-        <TransparencySection />
-        <Dashboard />
-        <ClubsSection />
-        <NewsSection />
-        <PartnersSection />
-      </main>
+    <Router>
+      <ScrollToTop />
+      <div className={`min-h-screen transition-colors duration-300 font-sans ${theme === 'dark' ? 'dark' : ''} bg-white dark:bg-slate-950`}>
+        <style>{`
+          /* CSS Customizado para animações e scrollbar */
+          @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          @keyframes fadeInDown {
+              from { opacity: 0; transform: translateY(-10px); }
+              to { opacity: 1; transform: translateY(0); }
+          }
+          .animate-marquee {
+            animation: marquee 40s linear infinite;
+          }
+          .animate-fade-in-down {
+              animation: fadeInDown 0.2s ease-out forwards;
+          }
+          .hover\\:pause:hover {
+            animation-play-state: paused;
+          }
+          ::-webkit-scrollbar {
+            width: 8px;
+          }
+          ::-webkit-scrollbar-track {
+            background: ${theme === 'dark' ? '#0f172a' : '#f1f5f9'};
+          }
+          ::-webkit-scrollbar-thumb {
+            background: ${theme === 'dark' ? '#334155' : '#cbd5e1'};
+            border-radius: 4px;
+          }
+          ::-webkit-scrollbar-thumb:hover {
+            background: #009933;
+          }
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 3px;
+          }
+        `}</style>
+        
+        <Header theme={theme} toggleTheme={toggleTheme} />
+        
+        <main>
+          <ScoreTicker />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/transparencia" element={<TransparencyPage />} />
+          </Routes>
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </Router>
   );
 };
 
