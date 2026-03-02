@@ -122,59 +122,65 @@ const TRANSPARENCIA_DATA = [
   }
 ];
 
-// --- MOCK DATA EXISTENTE ---
+// --- DADOS ATUALIZADOS DOS TIMES E PLACARES ---
 
 const PLACARES = [
-  { id: 1, timeA: 'Brasília Futsal', golsA: 4, timeB: 'AJJR Futsal', golsB: 2, status: 'ENCERRADO', liga: 'Série Ouro' },
-  { id: 2, timeA: 'Cresspom', golsA: 1, timeB: 'Minas Brasília', golsB: 1, status: 'ENCERRADO', liga: 'Feminino' },
-  { id: 3, timeA: 'Aruc', golsA: 3, timeB: 'Planaltina', golsB: 5, status: 'ENCERRADO', liga: 'Sub-20' },
-  { id: 4, timeA: 'Ceilândia', golsA: 0, timeB: 'Real Brasília', golsB: 0, status: 'AO VIVO 2ºT', liga: 'Série Ouro' },
-  { id: 5, timeA: 'Sobradinho', golsA: 0, timeB: 'Gama', golsB: 0, status: 'HOJE 20:00', liga: 'Série Prata' },
+  { id: 1, timeA: 'Wjr', golsA: 4, timeB: 'Impacto', golsB: 3, status: 'ENCERRADO', liga: 'Rodada 1' },
+  { id: 2, timeA: 'Ad3', golsA: 4, timeB: 'Ceilandense', golsB: 4, status: 'ENCERRADO', liga: 'Rodada 1' },
+  { id: 3, timeA: 'Ad3', golsA: 10, timeB: 'IE Vitória', golsB: 0, status: 'ENCERRADO', liga: 'Rodada 2' },
+  { id: 4, timeA: 'A2', golsA: 2, timeB: 'IE Vitória', golsB: 0, status: 'ENCERRADO', liga: 'Rodada 1' },
+  { id: 5, timeA: 'Trovão', golsA: 0, timeB: 'Gol de Placa', golsB: 6, status: 'ENCERRADO', liga: 'Rodada 1' },
 ];
 
 const NOTICIAS_DESTAQUE = [
   {
     id: 1,
-    titulo: "Brasília Futsal vence clássico e assume liderança isolada",
+    titulo: "Ad3 aplica goleada histórica de 10x0 e assume o protagonismo",
     categoria: "SÉRIE OURO",
     imagem: "/futsal.jpg",
-    resumo: "Em jogo eletrizante no Ginásio do Cruzeiro, equipe da capital mostra força defensiva e garante vaga.",
+    resumo: "Com um ataque implacável, a equipe da Ad3 não tomou conhecimento do IE Vitória e garantiu os 3 pontos com autoridade.",
     autor: "Redação LCF",
-    data: "17 DEZ, 2025"
+    data: "HOJE"
   },
   {
     id: 2,
-    titulo: "Revelação do Candanguinha 2024 renova contrato",
-    categoria: "MERCADO",
+    titulo: "Gol de Placa estreia com vitória maiúscula de 6x0 sobre o Trovão",
+    categoria: "RODADA",
     imagem: "/futsal1.jpg",
-    resumo: "Artilheiro do campeonato fica para a temporada 2026 visando o Brasileiro de Ligas.",
+    resumo: "Futsal arte! O time do Gol de Placa dominou a partida do início ao fim e confirmou seu favoritismo.",
     autor: "Assessoria",
-    data: "16 DEZ, 2025"
+    data: "ONTEM"
   },
   {
     id: 3,
-    titulo: "Guia da Rodada: Saiba onde assistir aos jogos decisivos",
-    categoria: "SERVIÇO",
+    titulo: "Wjr e Impacto protagonizam jogo eletrizante decidido nos detalhes",
+    categoria: "JOGÃO",
     imagem: "/futsal7.jpg",
-    resumo: "Transmissões ao vivo pela TV Candanga no YouTube e Band.",
+    resumo: "Em um 4x3 de tirar o fôlego, a equipe do Wjr levou a melhor após confronto acirrado contra o Impacto.",
     autor: "Mídia LCF",
-    data: "15 DEZ, 2025"
+    data: "ONTEM"
   }
 ];
 
+// Tabela calculada com base nos resultados fornecidos
 const TABELA = [
-  { pos: 1, time: "Brasília Futsal", pts: 24, j: 9, v: 8, sg: 15, emblem: "BRA" },
-  { pos: 2, time: "AJJR Futsal", pts: 21, j: 9, v: 7, sg: 12, emblem: "AJR" },
-  { pos: 3, time: "Aruc", pts: 18, j: 9, v: 6, sg: 8, emblem: "ARU" },
-  { pos: 4, time: "Real Brasília", pts: 15, j: 8, v: 4, sg: 2, emblem: "REA" },
-  { pos: 5, time: "Planaltina", pts: 12, j: 9, v: 3, sg: -5, emblem: "PLA" },
+  { pos: 1, time: "Ad3", pts: 4, j: 2, v: 1, sg: 10, emblem: "AD3" },
+  { pos: 2, time: "Gol de Placa", pts: 3, j: 1, v: 1, sg: 6, emblem: "GOL" },
+  { pos: 3, time: "A2", pts: 3, j: 1, v: 1, sg: 2, emblem: "A2" },
+  { pos: 4, time: "Wjr", pts: 3, j: 1, v: 1, sg: 1, emblem: "WJR" },
+  { pos: 5, time: "Ceilandense", pts: 1, j: 1, v: 0, sg: 0, emblem: "CEI" },
 ];
 
+// Perfil de todos os times mencionados
 const CLUBES = [
-  { id: 1, nome: "Brasília Futsal", cidade: "Brasília", historia: "Fundado em 1999, maior campeão do DF.", emblem: "BRA" },
-  { id: 2, nome: "AJJR Futsal", cidade: "Taguatinga", historia: "Foco na formação de atletas de base.", emblem: "AJR" },
-  { id: 3, nome: "Aruc", cidade: "Cruzeiro", historia: "Tradicional clube cultural e esportivo.", emblem: "ARU" },
-  { id: 4, nome: "Planaltina EC", cidade: "Planaltina", historia: "A força da torcida do norte.", emblem: "PEC" },
+  { id: 1, nome: "Ad3", cidade: "Distrito Federal", historia: "Equipe com forte poder ofensivo e transição rápida, grande destaque ofensivo da temporada.", emblem: "AD3" },
+  { id: 2, nome: "Gol de Placa", cidade: "Distrito Federal", historia: "Tradicional time focado na técnica refinada e no futsal arte que encanta a torcida.", emblem: "GOL" },
+  { id: 3, nome: "A2", cidade: "Distrito Federal", historia: "Defesa sólida e contra-ataques letais são as marcas registradas deste forte elenco.", emblem: "A2" },
+  { id: 4, nome: "Wjr", cidade: "Distrito Federal", historia: "Raça e determinação em cada dividida de bola, um time que não desiste nunca.", emblem: "WJR" },
+  { id: 5, nome: "Ceilandense", cidade: "Ceilândia", historia: "A força e tradição da maior cidade do DF representadas com orgulho dentro das quadras.", emblem: "CEI" },
+  { id: 6, nome: "Impacto", cidade: "Distrito Federal", historia: "Esquadrão guerreiro e muito tático que busca a vitória até o apito final.", emblem: "IMP" },
+  { id: 7, nome: "IE Vitória", cidade: "Distrito Federal", historia: "Equipe em processo de reestruturação com foco em revelar novos talentos para a liga.", emblem: "IEV" },
+  { id: 8, nome: "Trovão", cidade: "Distrito Federal", historia: "Buscando o entrosamento perfeito para surpreender os maiores adversários do campeonato.", emblem: "TRO" },
 ];
 
 const PARCEIROS = [
@@ -433,9 +439,7 @@ const ScoreTicker = () => (
 const Hero = () => (
   <section className="relative min-h-[500px] md:min-h-[600px] flex items-center pt-8 overflow-hidden">
     <div className="absolute inset-0 z-0">
-      {/* Imagem de Futsal Substituída */}
       <img src="/futsal2.jpg" alt="Futsal background" className="w-full h-full object-cover object-center" />
-      {/* Máscara de gradiente ajustada */}
       <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent opacity-95 dark:opacity-90"></div>
       <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white dark:from-slate-950 to-transparent"></div>
     </div>
@@ -464,11 +468,9 @@ const Hero = () => (
         </div>
       </Reveal>
       
-      {/* Dynamic Floating Card */}
       <Reveal direction="left" delay={200} className="hidden lg:block relative">
          <div className="relative z-10 bg-slate-900/60 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-2xl animate-float">
             <div className="flex items-start gap-4 mb-4">
-               {/* Imagem Card Futsal */}
                <img src="/futsal2.jpg" className="w-24 h-24 rounded-lg object-cover border-2 border-brand-yellow" alt="Destaque"/>
                <div>
                  <span className="text-brand-yellow text-xs font-bold uppercase">Ao Vivo na Rádio</span>
@@ -482,17 +484,14 @@ const Hero = () => (
   </section>
 );
 
-// --- SEÇÃO SOBRE NÓS (Estilo Moderno com Recorte/Grid) ---
 const AboutSection = () => (
   <section id="sobre" className="py-20 bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
     <div className="container mx-auto px-4">
       <div className="grid lg:grid-cols-2 gap-12 items-center">
         <Reveal>
-          {/* Imagem com recorte moderno e tamanho controlado */}
           <div className="relative group max-w-lg mx-auto lg:mx-0">
             <div className="absolute inset-0 bg-brand-green rounded-[2rem] rotate-3 opacity-20 group-hover:rotate-6 transition-transform duration-500"></div>
             <div className="relative h-64 sm:h-80 md:h-96 w-full rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white dark:border-slate-800">
-              {/* Imagem Sobre Nós Futsal */}
               <img 
                 src="/futsal4.jpg" 
                 alt="Sobre a Liga" 
@@ -527,9 +526,9 @@ const AboutSection = () => (
   </section>
 );
 
-// --- SEÇÃO TRANSPARÊNCIA INTERATIVA ---
 const TransparencySection = () => {
   const [selectedProject, setSelectedProject] = useState(TRANSPARENCIA_DATA[0]);
+  const [isExpanded, setIsExpanded] = useState(false); // NOVO ESTADO AQUI
 
   return (
     <section id="transparencia" className="py-20 bg-white dark:bg-slate-950 transition-colors duration-300">
@@ -540,109 +539,137 @@ const TransparencySection = () => {
         <div className="mb-8 p-6 bg-brand-green/5 border border-brand-green/20 rounded-2xl flex items-start gap-4">
            <Info className="text-brand-green shrink-0 mt-1" />
            <p className="text-sm text-slate-600 dark:text-slate-300">
-             Nosso compromisso com a transparência reflete nossa dedicação em aplicar os recursos de forma responsável e eficiente. Abaixo, selecione um Termo de Fomento para visualizar os detalhes, valores e editais disponíveis.
+             Nosso compromisso com a transparência reflete nossa dedicação em aplicar os recursos de forma responsável e eficiente. Os dados detalhados estão disponíveis no painel oficial abaixo.
            </p>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-8 h-auto lg:h-[600px]">
-          {/* Lista Lateral (Scrollável) */}
-          <div className="lg:col-span-4 space-y-3 lg:overflow-y-auto pr-2 custom-scrollbar max-h-[400px] lg:max-h-full">
-            {TRANSPARENCIA_DATA.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setSelectedProject(item)}
-                className={`w-full text-left p-4 rounded-xl border transition-all duration-300 group ${
-                  selectedProject.id === item.id 
-                    ? 'bg-brand-green text-white border-brand-green shadow-lg shadow-green-900/20 translate-x-2' 
-                    : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-brand-green/50 hover:bg-white dark:hover:bg-slate-800'
-                }`}
-              >
-                <div className="flex justify-between items-start mb-2">
-                  <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded ${
-                    selectedProject.id === item.id ? 'bg-white/20 text-white' : 'bg-slate-200 dark:bg-slate-800 text-slate-500'
-                  }`}>
-                    {item.termo}
-                  </span>
-                  <span className={`text-[10px] font-bold ${
-                    selectedProject.id === item.id ? 'text-brand-yellow' : 'text-slate-400'
-                  }`}>
-                    {item.data}
-                  </span>
-                </div>
-                <h4 className={`font-bold text-sm leading-tight line-clamp-2 ${
-                  selectedProject.id === item.id ? 'text-white' : 'text-slate-800 dark:text-slate-200'
-                }`}>
-                  {item.objeto}
-                </h4>
-              </button>
-            ))}
-          </div>
-
-          {/* Painel de Detalhes (Fixo) */}
-          <div className="lg:col-span-8 h-full">
-            <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-xl h-full flex flex-col relative overflow-hidden">
-              {/* Decorative Icon Background */}
-              <div className="absolute -bottom-10 -right-10 opacity-5 pointer-events-none">
-                <FileText size={300} className="text-brand-green" />
+        {/* CONTÊINER COM O EFEITO DE OCULTAR / MÁSCARA */}
+        <div className="relative">
+          <div className={`transition-all duration-700 overflow-hidden ${isExpanded ? 'max-h-[2500px]' : 'max-h-[300px]'}`}>
+            <div className="grid lg:grid-cols-12 gap-8 h-auto lg:h-[600px]">
+              {/* Lista Lateral (Scrollável) */}
+              <div className="lg:col-span-4 space-y-3 lg:overflow-y-auto pr-2 custom-scrollbar max-h-[400px] lg:max-h-full">
+                {TRANSPARENCIA_DATA.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => setSelectedProject(item)}
+                    className={`w-full text-left p-4 rounded-xl border transition-all duration-300 group ${
+                      selectedProject.id === item.id 
+                        ? 'bg-brand-green text-white border-brand-green shadow-lg shadow-green-900/20 translate-x-2' 
+                        : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-brand-green/50 hover:bg-white dark:hover:bg-slate-800'
+                    }`}
+                  >
+                    <div className="flex justify-between items-start mb-2">
+                      <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded ${
+                        selectedProject.id === item.id ? 'bg-white/20 text-white' : 'bg-slate-200 dark:bg-slate-800 text-slate-500'
+                      }`}>
+                        {item.termo}
+                      </span>
+                      <span className={`text-[10px] font-bold ${
+                        selectedProject.id === item.id ? 'text-brand-yellow' : 'text-slate-400'
+                      }`}>
+                        {item.data}
+                      </span>
+                    </div>
+                    <h4 className={`font-bold text-sm leading-tight line-clamp-2 ${
+                      selectedProject.id === item.id ? 'text-white' : 'text-slate-800 dark:text-slate-200'
+                    }`}>
+                      {item.objeto}
+                    </h4>
+                  </button>
+                ))}
               </div>
-              
-              <div className="relative z-10 flex flex-col h-full">
-                <div className="inline-block self-start bg-brand-yellow text-slate-900 text-xs font-black px-3 py-1 rounded-full mb-4 uppercase tracking-wide shadow-sm">
-                  {selectedProject.situacao}
-                </div>
-                
-                <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
-                  {selectedProject.objeto}
-                </h3>
-                
-                <div className="grid sm:grid-cols-2 gap-6 mb-8">
-                  <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                    <span className="block text-xs text-slate-500 uppercase font-bold mb-2 flex items-center gap-1"><DollarSign size={14}/> Valor do Repasse</span>
-                    <span className="text-2xl font-black text-brand-green tracking-tight">{selectedProject.valor}</span>
-                  </div>
-                  <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                    <span className="block text-xs text-slate-500 uppercase font-bold mb-2 flex items-center gap-1"><FileText size={14}/> Termo Oficial</span>
-                    <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">{selectedProject.termo}</span>
-                  </div>
-                </div>
 
-                <div className="mb-auto">
-                  <h5 className="font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-3 text-sm uppercase tracking-wide">
-                    <CheckCircle size={16} className="text-brand-green" /> Detalhes & Status
-                  </h5>
-                  <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                    {selectedProject.detalhes} <br/>
-                    <span className="block mt-2 text-xs text-slate-400 font-bold uppercase">Data de Assinatura/Referência: {selectedProject.data}</span>
-                  </p>
-                </div>
+              {/* Painel de Detalhes (Fixo) */}
+              <div className="lg:col-span-8 h-full">
+                <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-xl h-full flex flex-col relative overflow-hidden">
+                  <div className="absolute -bottom-10 -right-10 opacity-5 pointer-events-none">
+                    <FileText size={300} className="text-brand-green" />
+                  </div>
+                  
+                  <div className="relative z-10 flex flex-col h-full">
+                    <div className="inline-block self-start bg-brand-yellow text-slate-900 text-xs font-black px-3 py-1 rounded-full mb-4 uppercase tracking-wide shadow-sm">
+                      {selectedProject.situacao}
+                    </div>
+                    
+                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
+                      {selectedProject.objeto}
+                    </h3>
+                    
+                    <div className="grid sm:grid-cols-2 gap-6 mb-8">
+                      <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <span className="block text-xs text-slate-500 uppercase font-bold mb-2 flex items-center gap-1"><DollarSign size={14}/> Valor do Repasse</span>
+                        <span className="text-2xl font-black text-brand-green tracking-tight">{selectedProject.valor}</span>
+                      </div>
+                      <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <span className="block text-xs text-slate-500 uppercase font-bold mb-2 flex items-center gap-1"><FileText size={14}/> Termo Oficial</span>
+                        <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">{selectedProject.termo}</span>
+                      </div>
+                    </div>
 
-                {selectedProject.editais.length > 0 && (
-                  <div className="mt-6">
-                    <h5 className="font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-3 text-sm uppercase tracking-wide">
-                      <Download size={16} className="text-brand-yellow" /> Editais Disponíveis
-                    </h5>
-                    <div className="flex flex-wrap gap-3">
-                      {selectedProject.editais.map((edital, idx) => (
-                        <a 
-                          key={idx} 
-                          href={edital.link} 
-                          className="flex items-center gap-2 px-4 py-3 bg-white dark:bg-slate-800 hover:bg-brand-green hover:text-white text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-xs font-bold uppercase rounded-lg transition-all shadow-sm hover:shadow-md hover:-translate-y-1"
-                        >
-                          <FileText size={16} /> {edital.nome}
-                        </a>
-                      ))}
+                    <div className="mb-auto">
+                      <h5 className="font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-3 text-sm uppercase tracking-wide">
+                        <CheckCircle size={16} className="text-brand-green" /> Detalhes & Status
+                      </h5>
+                      <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        {selectedProject.detalhes} <br/>
+                        <span className="block mt-2 text-xs text-slate-400 font-bold uppercase">Data de Assinatura/Referência: {selectedProject.data}</span>
+                      </p>
+                    </div>
+
+                    {selectedProject.editais.length > 0 && (
+                      <div className="mt-6">
+                        <h5 className="font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-3 text-sm uppercase tracking-wide">
+                          <Download size={16} className="text-brand-yellow" /> Editais Disponíveis
+                        </h5>
+                        <div className="flex flex-wrap gap-3">
+                          {selectedProject.editais.map((edital, idx) => (
+                            <a 
+                              key={idx} 
+                              href={edital.link} 
+                              className="flex items-center gap-2 px-4 py-3 bg-white dark:bg-slate-800 hover:bg-brand-green hover:text-white text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-xs font-bold uppercase rounded-lg transition-all shadow-sm hover:shadow-md hover:-translate-y-1"
+                            >
+                              <FileText size={16} /> {edital.nome}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800">
+                       <a href="https://portal.plataformamaisbrasil.gov.br/maisbrasil-portal-frontend/" target="_blank" className="text-xs text-slate-500 hover:text-brand-green underline flex items-center gap-1 font-bold">
+                          Verificar no Portal Mais Brasil <ChevronRight size={12}/>
+                       </a>
                     </div>
                   </div>
-                )}
-                
-                <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800">
-                   <a href="https://portal.plataformamaisbrasil.gov.br/maisbrasil-portal-frontend/" target="_blank" className="text-xs text-slate-500 hover:text-brand-green underline flex items-center gap-1 font-bold">
-                      Verificar no Portal Mais Brasil <ChevronRight size={12}/>
-                   </a>
                 </div>
               </div>
             </div>
           </div>
+
+          {/* OVERLAY DE MÁSCARA E BOTÃO "VER MAIS" */}
+          {!isExpanded && (
+            <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-white via-white/90 dark:from-slate-950 dark:via-slate-950/90 to-transparent flex items-end justify-center pb-4 z-20">
+              <button 
+                onClick={() => setIsExpanded(true)}
+                className="bg-brand-green hover:bg-green-600 text-white px-8 py-4 rounded-full font-black uppercase tracking-wide shadow-lg shadow-green-900/20 hover:-translate-y-1 transition-all flex items-center gap-2"
+              >
+                <Lock size={18} /> Acessar Portal Completo
+              </button>
+            </div>
+          )}
+
+          {/* BOTÃO PARA FECHAR DEPOIS DE ABERTO */}
+          {isExpanded && (
+            <div className="flex justify-center mt-6">
+              <button 
+                onClick={() => setIsExpanded(false)}
+                className="text-slate-500 hover:text-brand-green text-xs font-bold uppercase flex items-center gap-1 transition-colors bg-slate-100 dark:bg-slate-900 px-4 py-2 rounded-full"
+              >
+                <ChevronDown size={14} className="rotate-180" /> Ocultar Portal de Transparência
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>
@@ -744,24 +771,57 @@ const Dashboard = () => {
 
                     {activeTab === 'jogos' ? (
                         <div className="space-y-3">
-                            {[1, 2, 3].map((i) => (
-                                <div key={i} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 border-l-2 border-l-brand-green hover:border-brand-green transition-all cursor-pointer">
-                                    <div className="flex flex-col items-center min-w-[3rem] border-r border-slate-200 dark:border-slate-700 pr-3 mr-3">
-                                    <span className="text-[10px] font-bold text-slate-400 uppercase">DEZ</span>
-                                    <span className="text-xl font-black text-slate-800 dark:text-white">18</span>
-                                    </div>
-                                    <div className="flex-1">
-                                    <div className="flex justify-between items-center mb-1">
-                                        <span className="text-xs font-bold text-slate-900 dark:text-white">Brasília</span>
-                                        <span className="text-[10px] bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-300">19:30</span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-xs font-bold text-slate-900 dark:text-white">Ceilândia</span>
-                                        <span className="text-[10px] text-brand-green font-bold">Gin. SESC</span>
-                                    </div>
-                                    </div>
+                            <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 border-l-2 border-l-brand-green hover:border-brand-green transition-all cursor-pointer">
+                                <div className="flex flex-col items-center min-w-[3rem] border-r border-slate-200 dark:border-slate-700 pr-3 mr-3">
+                                <span className="text-[10px] font-bold text-slate-400 uppercase">DEZ</span>
+                                <span className="text-xl font-black text-slate-800 dark:text-white">18</span>
                                 </div>
-                            ))}
+                                <div className="flex-1">
+                                <div className="flex justify-between items-center mb-1">
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Ad3</span>
+                                    <span className="text-[10px] bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-300">19:30</span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Ceilandense</span>
+                                    <span className="text-[10px] text-brand-green font-bold">Gin. SESC</span>
+                                </div>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 border-l-2 border-l-brand-green hover:border-brand-green transition-all cursor-pointer">
+                                <div className="flex flex-col items-center min-w-[3rem] border-r border-slate-200 dark:border-slate-700 pr-3 mr-3">
+                                <span className="text-[10px] font-bold text-slate-400 uppercase">DEZ</span>
+                                <span className="text-xl font-black text-slate-800 dark:text-white">19</span>
+                                </div>
+                                <div className="flex-1">
+                                <div className="flex justify-between items-center mb-1">
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Wjr</span>
+                                    <span className="text-[10px] bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-300">20:00</span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Impacto</span>
+                                    <span className="text-[10px] text-brand-green font-bold">Ginásio Sul</span>
+                                </div>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 border-l-2 border-l-brand-green hover:border-brand-green transition-all cursor-pointer">
+                                <div className="flex flex-col items-center min-w-[3rem] border-r border-slate-200 dark:border-slate-700 pr-3 mr-3">
+                                <span className="text-[10px] font-bold text-slate-400 uppercase">DEZ</span>
+                                <span className="text-xl font-black text-slate-800 dark:text-white">20</span>
+                                </div>
+                                <div className="flex-1">
+                                <div className="flex justify-between items-center mb-1">
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Trovão</span>
+                                    <span className="text-[10px] bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-300">21:15</span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Gol de Placa</span>
+                                    <span className="text-[10px] text-brand-green font-bold">Arena DF</span>
+                                </div>
+                                </div>
+                            </div>
+                            
                             <button className="w-full mt-4 text-xs font-bold text-slate-500 hover:text-brand-green transition-colors uppercase tracking-wide">
                                 Ver calendário completo
                             </button>
@@ -774,10 +834,10 @@ const Dashboard = () => {
                                     <PlayCircle size={40} className="text-white drop-shadow-lg group-hover:scale-110 transition-transform" />
                                 </div>
                                 <div className="absolute bottom-0 left-0 w-full p-2 bg-gradient-to-t from-black/80 to-transparent">
-                                    <span className="text-white text-xs font-bold">Resumo da Rodada #14</span>
+                                    <span className="text-white text-xs font-bold">Resumo da Rodada (Ad3 10x0)</span>
                                 </div>
                             </div>
-                            <p className="text-xs text-slate-600 dark:text-slate-500">Confira os gols e melhores momentos da rodada com a análise de Julia.</p>
+                            <p className="text-xs text-slate-600 dark:text-slate-500">Confira os gols e melhores momentos da rodada histórica.</p>
                             <button className="w-full bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2 rounded flex items-center justify-center gap-2">
                                 <Youtube size={14} /> VER NO CANAL
                             </button>
