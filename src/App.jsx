@@ -706,36 +706,55 @@ const Dashboard = () => {
                         <div className="space-y-3">
                             <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 border-l-2 border-l-brand-green hover:border-brand-green transition-all cursor-pointer">
                                 <div className="flex flex-col items-center min-w-[3rem] border-r border-slate-200 dark:border-slate-700 pr-3 mr-3">
-                                <span className="text-[10px] font-bold text-slate-400 uppercase">DEZ</span>
-                                <span className="text-xl font-black text-slate-800 dark:text-white">18</span>
+                                <span className="text-[10px] font-bold text-slate-400 uppercase">MAR</span>
+                                <span className="text-xl font-black text-slate-800 dark:text-white">11</span>
                                 </div>
                                 <div className="flex-1">
                                 <div className="flex justify-between items-center mb-1">
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Ad3</span>
-                                    <span className="text-[10px] bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-300">19:30</span>
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">AAGP</span>
+                                    <span className="text-[10px] bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-300">20:00 (Sub-12)</span>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Ceilandense</span>
-                                    <span className="text-[10px] text-brand-green font-bold">Gin. SESC</span>
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Loctrad</span>
+                                    <span className="text-[10px] text-brand-green font-bold">Gin. Guariroba</span>
                                 </div>
                                 </div>
                             </div>
+                            
                             <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 border-l-2 border-l-brand-green hover:border-brand-green transition-all cursor-pointer">
                                 <div className="flex flex-col items-center min-w-[3rem] border-r border-slate-200 dark:border-slate-700 pr-3 mr-3">
-                                <span className="text-[10px] font-bold text-slate-400 uppercase">DEZ</span>
-                                <span className="text-xl font-black text-slate-800 dark:text-white">19</span>
+                                <span className="text-[10px] font-bold text-slate-400 uppercase">MAR</span>
+                                <span className="text-xl font-black text-slate-800 dark:text-white">11</span>
                                 </div>
                                 <div className="flex-1">
                                 <div className="flex justify-between items-center mb-1">
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Wjr</span>
-                                    <span className="text-[10px] bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-300">20:00</span>
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Loctrad</span>
+                                    <span className="text-[10px] bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-300">20:50 (Sub-16)</span>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Impacto</span>
-                                    <span className="text-[10px] text-brand-green font-bold">Ginásio Sul</span>
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">A2 Futsal</span>
+                                    <span className="text-[10px] text-brand-green font-bold">Gin. Guariroba</span>
                                 </div>
                                 </div>
                             </div>
+
+                            <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 border-l-2 border-l-brand-green hover:border-brand-green transition-all cursor-pointer">
+                                <div className="flex flex-col items-center min-w-[3rem] border-r border-slate-200 dark:border-slate-700 pr-3 mr-3">
+                                <span className="text-[10px] font-bold text-slate-400 uppercase">MAR</span>
+                                <span className="text-xl font-black text-slate-800 dark:text-white">11</span>
+                                </div>
+                                <div className="flex-1">
+                                <div className="flex justify-between items-center mb-1">
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Trovão P.</span>
+                                    <span className="text-[10px] bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-300">21:45 (Sub-16)</span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Sport FC</span>
+                                    <span className="text-[10px] text-brand-green font-bold">Gin. Guariroba</span>
+                                </div>
+                                </div>
+                            </div>
+
                             <button className="w-full mt-4 text-xs font-bold text-slate-500 hover:text-brand-green transition-colors uppercase tracking-wide">
                                 Ver calendário completo
                             </button>
