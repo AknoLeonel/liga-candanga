@@ -126,11 +126,11 @@ const TRANSPARENCIA_DATA = [
 // --- DADOS ATUALIZADOS DOS TIMES E PLACARES ---
 
 const PLACARES = [
-  { id: 1, timeA: 'Wjr', golsA: 4, timeB: 'Impacto', golsB: 3, status: 'ENCERRADO', liga: 'Rodada 1' },
-  { id: 2, timeA: 'Ad3', golsA: 4, timeB: 'Ceilandense', golsB: 4, status: 'ENCERRADO', liga: 'Rodada 1' },
-  { id: 3, timeA: 'Ad3', golsA: 10, timeB: 'IE Vitória', golsB: 0, status: 'ENCERRADO', liga: 'Rodada 2' },
-  { id: 4, timeA: 'A2', golsA: 2, timeB: 'IE Vitória', golsB: 0, status: 'ENCERRADO', liga: 'Rodada 1' },
-  { id: 5, timeA: 'Trovão', golsA: 0, timeB: 'Gol de Placa', golsB: 6, status: 'ENCERRADO', liga: 'Rodada 1' },
+  { id: 1, timeA: 'Wjr', golsA: 4, timeB: 'Impacto', golsB: 3, status: 'ENCERRADO', liga: 'Semi-final' },
+  { id: 2, timeA: 'Ad3', golsA: 4, timeB: 'Ceilandense', golsB: 4, status: 'ENCERRADO', liga: 'Quartas de Final' },
+  { id: 3, timeA: 'Ad3', golsA: 10, timeB: 'IE Vitória', golsB: 0, status: 'ENCERRADO', liga: 'Semi-final' },
+  { id: 4, timeA: 'A2', golsA: 2, timeB: 'IE Vitória', golsB: 0, status: 'ENCERRADO', liga: 'Quartas de Final' },
+  { id: 5, timeA: 'Trovão', golsA: 0, timeB: 'Gol de Placa', golsB: 6, status: 'ENCERRADO', liga: 'Semi-final' },
 ];
 
 const NOTICIAS_DESTAQUE = [
