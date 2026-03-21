@@ -10,6 +10,27 @@ import {
 // A barra "/" refere-se à raiz da pasta public.
 const logoLiga = "/logoligasemfundo.png";
 
+// --- MAPEAMENTO DE LOGOS DOS TIMES ---
+// Adicione aqui os nomes dos arquivos PNG que você for subindo na pasta public
+const TEAM_LOGOS = {
+  'Wjr': '/W.Jr, Futsal.png',
+  'Impacto': '/Impacto.png',
+  'Ad3': '/Ad3.png',
+  'Ceilandense': '/Ceilandense.png',
+  'IE Vitória': '/IEVitoria.png',
+  'A2': '/a2 futsal.png',
+  'A2 Futsal': '/a2 futsal.png',
+  'Trovão': '/Trovaoplanaltina.png',
+  'Trovão P.': '/Trovaoplanaltina.png',
+  'Trovão planaltina': '/Trovaoplanaltina.png',
+  'Gol de Placa': '/Gol de Placa.png',
+  'Loctrad': '/Loctrad.png',
+  'AAGP': '/AAGP.png',
+  'Sport': '/Sport Football Club.png',
+  'Sport FC': '/Sport Football Club.png',
+  'Sport Football Club': '/Sport Football Club.png',
+};
+
 // --- DADOS REAIS DE TRANSPARÊNCIA ---
 const TRANSPARENCIA_DATA = [
   { 
@@ -124,13 +145,15 @@ const TRANSPARENCIA_DATA = [
 ];
 
 // --- DADOS ATUALIZADOS DOS TIMES E PLACARES ---
-
 const PLACARES = [
   { id: 1, timeA: 'Wjr', golsA: 4, timeB: 'Impacto', golsB: 3, status: 'ENCERRADO', liga: 'Semi-final' },
   { id: 2, timeA: 'Ad3', golsA: 4, timeB: 'Ceilandense', golsB: 4, status: 'ENCERRADO', liga: 'Quartas de Final' },
   { id: 3, timeA: 'Ad3', golsA: 10, timeB: 'IE Vitória', golsB: 0, status: 'ENCERRADO', liga: 'Semi-final' },
   { id: 4, timeA: 'A2', golsA: 2, timeB: 'IE Vitória', golsB: 0, status: 'ENCERRADO', liga: 'Quartas de Final' },
   { id: 5, timeA: 'Trovão', golsA: 0, timeB: 'Gol de Placa', golsB: 6, status: 'ENCERRADO', liga: 'Semi-final' },
+  { id: 6, timeA: 'Loctrad', golsA: 6, timeB: 'AAGP', golsB: 0, status: 'ENCERRADO', liga: 'Rodada' },
+  { id: 7, timeA: 'Loctrad', golsA: 14, timeB: 'A2', golsB: 1, status: 'ENCERRADO', liga: 'Rodada' },
+  { id: 8, timeA: 'Trovão', golsA: 3, timeB: 'Sport', golsB: 2, status: 'ENCERRADO', liga: 'Rodada' },
 ];
 
 const NOTICIAS_DESTAQUE = [
@@ -164,22 +187,22 @@ const NOTICIAS_DESTAQUE = [
 ];
 
 const TABELA = [
-  { pos: 1, time: "Ad3", pts: 4, j: 2, v: 1, sg: 10, emblem: "AD3" },
-  { pos: 2, time: "Gol de Placa", pts: 3, j: 1, v: 1, sg: 6, emblem: "GOL" },
-  { pos: 3, time: "A2", pts: 3, j: 1, v: 1, sg: 2, emblem: "A2" },
-  { pos: 4, time: "Wjr", pts: 3, j: 1, v: 1, sg: 1, emblem: "WJR" },
-  { pos: 5, time: "Ceilandense", pts: 1, j: 1, v: 0, sg: 0, emblem: "CEI" },
+  { pos: 1, time: "Ad3", pts: 4, j: 2, v: 1, sg: 10 },
+  { pos: 2, time: "Gol de Placa", pts: 3, j: 1, v: 1, sg: 6 },
+  { pos: 3, time: "A2", pts: 3, j: 1, v: 1, sg: 2 },
+  { pos: 4, time: "Wjr", pts: 3, j: 1, v: 1, sg: 1 },
+  { pos: 5, time: "Ceilandense", pts: 1, j: 1, v: 0, sg: 0 },
 ];
 
 const CLUBES = [
-  { id: 1, nome: "Ad3", cidade: "Distrito Federal", historia: "Equipe com forte poder ofensivo e transição rápida, grande destaque ofensivo da temporada.", emblem: "AD3" },
-  { id: 2, nome: "Gol de Placa", cidade: "Distrito Federal", historia: "Tradicional time focado na técnica refinada e no futsal arte que encanta a torcida.", emblem: "GOL" },
-  { id: 3, nome: "A2", cidade: "Distrito Federal", historia: "Defesa sólida e contra-ataques letais são as marcas registradas deste forte elenco.", emblem: "A2" },
-  { id: 4, nome: "Wjr", cidade: "Distrito Federal", historia: "Raça e determinação em cada dividida de bola, um time que não desiste nunca.", emblem: "WJR" },
-  { id: 5, nome: "Ceilandense", cidade: "Ceilândia", historia: "A força e tradição da maior cidade do DF representadas com orgulho dentro das quadras.", emblem: "CEI" },
-  { id: 6, nome: "Impacto", cidade: "Distrito Federal", historia: "Esquadrão guerreiro e muito tático que busca a vitória até o apito final.", emblem: "IMP" },
-  { id: 7, nome: "IE Vitória", cidade: "Distrito Federal", historia: "Equipe em processo de reestruturação com foco em revelar novos talentos para a liga.", emblem: "IEV" },
-  { id: 8, nome: "Trovão", cidade: "Distrito Federal", historia: "Buscando o entrosamento perfeito para surpreender os maiores adversários do campeonato.", emblem: "TRO" },
+  { id: 1, nome: "Ad3", cidade: "Distrito Federal", historia: "Equipe com forte poder ofensivo e transição rápida, grande destaque ofensivo da temporada." },
+  { id: 2, nome: "Gol de Placa", cidade: "Distrito Federal", historia: "Tradicional time focado na técnica refinada e no futsal arte que encanta a torcida." },
+  { id: 3, nome: "A2", cidade: "Distrito Federal", historia: "Defesa sólida e contra-ataques letais são as marcas registradas deste forte elenco." },
+  { id: 4, nome: "Wjr", cidade: "Distrito Federal", historia: "Raça e determinação em cada dividida de bola, um time que não desiste nunca." },
+  { id: 5, nome: "Ceilandense", cidade: "Ceilândia", historia: "A força e tradição da maior cidade do DF representadas com orgulho dentro das quadras." },
+  { id: 6, nome: "Impacto", cidade: "Distrito Federal", historia: "Esquadrão guerreiro e muito tático que busca a vitória até o apito final." },
+  { id: 7, nome: "IE Vitória", cidade: "Distrito Federal", historia: "Equipe em processo de reestruturação com foco em revelar novos talentos para a liga." },
+  { id: 8, nome: "Trovão", cidade: "Distrito Federal", historia: "Buscando o entrosamento perfeito para surpreender os maiores adversários do campeonato." },
 ];
 
 const PARCEIROS = [
@@ -187,6 +210,12 @@ const PARCEIROS = [
   { id: 2, nome: "DUALT", tipo: "Patrocinador Master", resumo: "BOLAS LICENCIADAS PARA OS MAIORES TIMES DO MUNDO" },
   { id: 3, nome: "Secretaria de Esportes", tipo: "Apoio Institucional", resumo: "Fomento ao esporte no Distrito Federal." },
   { id: 4, nome: "GDF", tipo: "Governo", resumo: "Governo do Distrito Federal." },
+];
+
+const AGENDA_JOGOS = [
+  { id: 1, dataStr: '11', mesStr: 'MAR', timeA: 'AAGP', timeB: 'Loctrad', infoA: '20:00 (Sub-12 - Semi)', infoB: 'Gin. Guariroba' },
+  { id: 2, dataStr: '11', mesStr: 'MAR', timeA: 'Loctrad', timeB: 'A2 Futsal', infoA: '20:50 (Sub-16 - Quartas)', infoB: 'Gin. Guariroba' },
+  { id: 3, dataStr: '11', mesStr: 'MAR', timeA: 'Trovão P.', timeB: 'Sport FC', infoA: '21:45 (Sub-16 - Semi)', infoB: 'Gin. Guariroba' }
 ];
 
 // --- HOOKS & UTILS ---
@@ -238,7 +267,6 @@ const Reveal = ({ children, className = "", delay = 0, direction = "up" }) => {
   );
 };
 
-// Componente para voltar ao topo ao trocar de página
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -336,7 +364,6 @@ const Header = ({ theme, toggleTheme }) => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             
-            {/* Logo Area */}
             <Link to="/" className="flex items-center gap-3 group cursor-pointer z-50">
               <div className="relative w-12 h-12 md:w-16 md:h-16 flex items-center justify-center bg-white/5 rounded-full backdrop-blur-sm p-1 border border-white/10 shadow-lg group-hover:scale-105 transition-transform">
                  <img src={logoLiga} alt="Logo Liga Candanga" className="w-full h-full object-contain" />
@@ -349,7 +376,6 @@ const Header = ({ theme, toggleTheme }) => {
               </div>
             </Link>
 
-            {/* Desktop Nav */}
             <nav className="hidden lg:flex items-center gap-1 bg-white/80 dark:bg-slate-900/80 px-4 py-1.5 rounded-full border border-slate-200 dark:border-white/10 backdrop-blur-md shadow-lg">
               <NavItem label="Início" to="/" active={location.pathname === '/'} />
               <NavItem 
@@ -368,7 +394,6 @@ const Header = ({ theme, toggleTheme }) => {
               <NavItem label="TV Candanga" href="/#youtube" />
             </nav>
 
-            {/* Actions */}
             <div className="flex items-center gap-3">
               <button 
                 onClick={toggleTheme}
@@ -383,7 +408,6 @@ const Header = ({ theme, toggleTheme }) => {
                  <a href="https://www.instagram.com" target="_blank" rel="noreferrer" className={`p-2 transition-colors ${isScrolled ? 'text-slate-500 hover:text-pink-600' : 'text-slate-300 hover:text-white'}`}><Instagram size={20}/></a>
               </div>
 
-              {/* Mobile Toggle */}
               <button 
                 className={`lg:hidden p-2 z-50 ${isScrolled || isMenuOpen ? 'text-slate-900 dark:text-white' : 'text-white'}`}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -396,7 +420,6 @@ const Header = ({ theme, toggleTheme }) => {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
       <div className={`fixed inset-0 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl z-40 transition-transform duration-300 lg:hidden flex flex-col pt-24 px-6 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <nav className="flex flex-col gap-2 overflow-y-auto max-h-[70vh]">
           <MobileMenuItem label="Início" to="/" onClick={() => setIsMenuOpen(false)} />
@@ -431,7 +454,6 @@ const Footer = () => (
   <footer id="footer" className="bg-slate-950 text-slate-400 pt-16 pb-8 border-t-4 border-brand-green relative">
     <div className="container mx-auto px-4">
       <div className="grid md:grid-cols-4 gap-12 mb-12">
-        {/* Brand */}
         <div className="col-span-1 md:col-span-2">
           <div className="flex items-center gap-2 mb-6">
              <div className="w-12 h-12 bg-white rounded flex items-center justify-center p-1">
@@ -452,7 +474,6 @@ const Footer = () => (
           </div>
         </div>
 
-        {/* Links */}
         <div>
           <h5 className="text-white font-bold uppercase tracking-wider text-xs mb-6">Navegação</h5>
           <ul className="space-y-3 text-sm">
@@ -464,7 +485,6 @@ const Footer = () => (
           </ul>
         </div>
 
-        {/* Newsletter */}
         <div>
           <h5 className="text-white font-bold uppercase tracking-wider text-xs mb-6">Newsletter</h5>
           <p className="text-xs mb-4">Receba notícias e resultados no seu e-mail.</p>
@@ -504,13 +524,19 @@ const ScoreTicker = () => (
           </div>
           <div className="flex justify-between items-center w-full">
             <div className="flex flex-col gap-1 w-full">
-              <div className="flex justify-between items-center">
-                <span className="text-xs md:text-sm font-bold text-slate-800 dark:text-slate-200 truncate max-w-[120px]">{jogo.timeA}</span>
-                <span className="text-sm font-black text-slate-900 dark:text-white">{jogo.golsA}</span>
+              <div className="flex justify-between items-center w-full">
+                <div className="flex items-center gap-2 overflow-hidden mr-2">
+                  <img src={TEAM_LOGOS[jogo.timeA] || `/${jogo.timeA}.png`} alt={jogo.timeA} className="w-4 h-4 md:w-5 md:h-5 object-contain flex-shrink-0" onError={(e) => { e.target.onerror = null; e.target.src = logoLiga }} />
+                  <span className="text-xs md:text-sm font-bold text-slate-800 dark:text-slate-200 truncate">{jogo.timeA}</span>
+                </div>
+                <span className="text-sm font-black text-slate-900 dark:text-white flex-shrink-0">{jogo.golsA}</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-xs md:text-sm font-bold text-slate-800 dark:text-slate-200 truncate max-w-[120px]">{jogo.timeB}</span>
-                <span className="text-sm font-black text-slate-900 dark:text-white">{jogo.golsB}</span>
+              <div className="flex justify-between items-center w-full">
+                <div className="flex items-center gap-2 overflow-hidden mr-2">
+                  <img src={TEAM_LOGOS[jogo.timeB] || `/${jogo.timeB}.png`} alt={jogo.timeB} className="w-4 h-4 md:w-5 md:h-5 object-contain flex-shrink-0" onError={(e) => { e.target.onerror = null; e.target.src = logoLiga }} />
+                  <span className="text-xs md:text-sm font-bold text-slate-800 dark:text-slate-200 truncate">{jogo.timeB}</span>
+                </div>
+                <span className="text-sm font-black text-slate-900 dark:text-white flex-shrink-0">{jogo.golsB}</span>
               </div>
             </div>
           </div>
@@ -659,8 +685,8 @@ const Dashboard = () => {
                         </td>
                         <td className="py-4">
                             <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-500">
-                                {time.emblem}
+                            <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center p-1 border border-slate-200 dark:border-slate-700">
+                                <img src={TEAM_LOGOS[time.time] || `/${time.time}.png`} alt={time.time} className="w-full h-full object-contain" onError={(e) => { e.target.onerror = null; e.target.src = logoLiga }} />
                             </div>
                             <span className="font-bold text-slate-800 dark:text-slate-200 group-hover:text-brand-green transition-colors">{time.time}</span>
                             </div>
@@ -704,56 +730,30 @@ const Dashboard = () => {
 
                     {activeTab === 'jogos' ? (
                         <div className="space-y-3">
-                            <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 border-l-2 border-l-brand-green hover:border-brand-green transition-all cursor-pointer">
-                                <div className="flex flex-col items-center min-w-[3rem] border-r border-slate-200 dark:border-slate-700 pr-3 mr-3">
-                                <span className="text-[10px] font-bold text-slate-400 uppercase">MAR</span>
-                                <span className="text-xl font-black text-slate-800 dark:text-white">11</span>
+                            {AGENDA_JOGOS.map((jogo) => (
+                                <div key={jogo.id} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 border-l-2 border-l-brand-green hover:border-brand-green transition-all cursor-pointer">
+                                    <div className="flex flex-col items-center min-w-[3rem] border-r border-slate-200 dark:border-slate-700 pr-3 mr-3">
+                                        <span className="text-[10px] font-bold text-slate-400 uppercase">{jogo.mesStr}</span>
+                                        <span className="text-xl font-black text-slate-800 dark:text-white">{jogo.dataStr}</span>
+                                    </div>
+                                    <div className="flex-1 overflow-hidden">
+                                        <div className="flex justify-between items-center mb-1">
+                                            <div className="flex items-center gap-2 mr-2">
+                                                <img src={TEAM_LOGOS[jogo.timeA] || `/${jogo.timeA}.png`} alt={jogo.timeA} className="w-4 h-4 object-contain flex-shrink-0" onError={(e) => { e.target.onerror = null; e.target.src = logoLiga }} />
+                                                <span className="text-xs font-bold text-slate-900 dark:text-white truncate">{jogo.timeA}</span>
+                                            </div>
+                                            <span className="text-[10px] bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-300 whitespace-nowrap">{jogo.infoA}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                            <div className="flex items-center gap-2 mr-2">
+                                                <img src={TEAM_LOGOS[jogo.timeB] || `/${jogo.timeB}.png`} alt={jogo.timeB} className="w-4 h-4 object-contain flex-shrink-0" onError={(e) => { e.target.onerror = null; e.target.src = logoLiga }} />
+                                                <span className="text-xs font-bold text-slate-900 dark:text-white truncate">{jogo.timeB}</span>
+                                            </div>
+                                            <span className="text-[10px] text-brand-green font-bold whitespace-nowrap">{jogo.infoB}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="flex-1">
-                                <div className="flex justify-between items-center mb-1">
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white">AAGP</span>
-                                    <span className="text-[10px] bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-300">20:00 (Sub-12)</span>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Loctrad</span>
-                                    <span className="text-[10px] text-brand-green font-bold">Gin. Guariroba</span>
-                                </div>
-                                </div>
-                            </div>
-                            
-                            <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 border-l-2 border-l-brand-green hover:border-brand-green transition-all cursor-pointer">
-                                <div className="flex flex-col items-center min-w-[3rem] border-r border-slate-200 dark:border-slate-700 pr-3 mr-3">
-                                <span className="text-[10px] font-bold text-slate-400 uppercase">MAR</span>
-                                <span className="text-xl font-black text-slate-800 dark:text-white">11</span>
-                                </div>
-                                <div className="flex-1">
-                                <div className="flex justify-between items-center mb-1">
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Loctrad</span>
-                                    <span className="text-[10px] bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-300">20:50 (Sub-16)</span>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white">A2 Futsal</span>
-                                    <span className="text-[10px] text-brand-green font-bold">Gin. Guariroba</span>
-                                </div>
-                                </div>
-                            </div>
-
-                            <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 border-l-2 border-l-brand-green hover:border-brand-green transition-all cursor-pointer">
-                                <div className="flex flex-col items-center min-w-[3rem] border-r border-slate-200 dark:border-slate-700 pr-3 mr-3">
-                                <span className="text-[10px] font-bold text-slate-400 uppercase">MAR</span>
-                                <span className="text-xl font-black text-slate-800 dark:text-white">11</span>
-                                </div>
-                                <div className="flex-1">
-                                <div className="flex justify-between items-center mb-1">
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Trovão P.</span>
-                                    <span className="text-[10px] bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-300">21:45 (Sub-16)</span>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white">Sport FC</span>
-                                    <span className="text-[10px] text-brand-green font-bold">Gin. Guariroba</span>
-                                </div>
-                                </div>
-                            </div>
+                            ))}
 
                             <button className="w-full mt-4 text-xs font-bold text-slate-500 hover:text-brand-green transition-colors uppercase tracking-wide">
                                 Ver calendário completo
@@ -798,8 +798,8 @@ const ClubsSection = () => (
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
            {CLUBES.map((clube) => (
              <Reveal key={clube.id} className="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center hover:border-brand-green transition-all group">
-                <div className="w-20 h-20 bg-slate-100 dark:bg-slate-800 rounded-full mb-4 flex items-center justify-center font-bold text-2xl text-slate-400 group-hover:bg-white group-hover:shadow-md transition-all">
-                    {clube.emblem}
+                <div className="w-20 h-20 bg-slate-50 dark:bg-slate-800 rounded-full mb-4 flex items-center justify-center p-2 group-hover:bg-white group-hover:shadow-md transition-all border border-slate-200 dark:border-slate-700">
+                    <img src={TEAM_LOGOS[clube.nome] || `/${clube.nome}.png`} alt={clube.nome} className="w-full h-full object-contain" onError={(e) => { e.target.onerror = null; e.target.src = logoLiga }} />
                 </div>
                 <h3 className="text-lg font-black text-slate-900 dark:text-white mb-1">{clube.nome}</h3>
                 <span className="text-xs font-bold text-brand-green uppercase tracking-wider mb-3 flex items-center gap-1">
@@ -884,7 +884,6 @@ const TransparencyPage = () => {
     <div className="pt-24 pb-20 bg-white dark:bg-slate-950 min-h-screen">
       <div className="container mx-auto px-4 mt-8">
         
-        {/* Cabeçalho exclusivo da página */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 text-brand-green border border-brand-green/20 text-xs font-black uppercase tracking-widest mb-4">
             <Shield size={14} /> Portal Oficial
@@ -898,7 +897,6 @@ const TransparencyPage = () => {
         </div>
 
         <div className="grid lg:grid-cols-12 gap-8 lg:h-[700px]">
-          {/* Lista Lateral */}
           <div className="lg:col-span-4 space-y-3 lg:overflow-y-auto pr-2 custom-scrollbar max-h-[500px] lg:max-h-full">
             {TRANSPARENCIA_DATA.map((item) => (
               <button
@@ -931,7 +929,6 @@ const TransparencyPage = () => {
             ))}
           </div>
 
-          {/* Painel de Detalhes Principal */}
           <div className="lg:col-span-8 h-full">
             <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-xl h-full flex flex-col relative overflow-hidden">
               <div className="absolute -bottom-10 -right-10 opacity-5 pointer-events-none">
