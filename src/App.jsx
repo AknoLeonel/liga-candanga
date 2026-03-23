@@ -559,7 +559,7 @@ const Hero = () => (
     <div className="container mx-auto px-4 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
       <Reveal direction="up" className="max-w-2xl">
         <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/20 text-brand-green border border-brand-green/30 text-xs font-black uppercase tracking-widest mb-6 backdrop-blur-md">
-          <img src={logoLiga} alt="Logo" className="w-4 h-4 object-contain" /> Temporada 2025
+          <img src={logoLiga} alt="Logo" className="w-4 h-4 object-contain" /> Temporada 2026
         </span>
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-[0.95] mb-6 drop-shadow-2xl">
           O FUTURO DO <br/>
