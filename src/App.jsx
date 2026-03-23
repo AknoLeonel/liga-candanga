@@ -16,7 +16,7 @@ const TEAM_LOGOS = {
   'Wjr': '/W.Jr, Futsal.png',
   'Impacto': '/Impacto.png',
   'Ad3': '/Ad3.png',
-  'Ceilandense': '/ceilandense.jpeg',
+  'Ceilandense': '/ceilandense.png',
   'IE Vitória': '/IEVitoria.png',
   'A2': '/a2 futsal.png',
   'A2 Futsal': '/a2 futsal.png',
